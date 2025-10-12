@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <!-- Vercel Web Analytics -->
-<script>
-  // queue calls until the analytics script loads
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
+
 <script defer src="/_vercel/insights/script.js"></script>
 
 <head>
@@ -26,5 +22,12 @@
       <p><a href="/">Back to store →</a></p>
     </div>
   </main>
+
+<!-- Vercel Web Analytics (static HTML) -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  
 </body>
 </html>

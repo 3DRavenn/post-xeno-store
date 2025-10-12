@@ -261,27 +261,17 @@
     });
 
     // Checkout (inline price_data)
-    document.getElementById('checkout').addEventListener('click', async () => {
-      if (cart.length === 0) {
-        alert(currentLang === 'ja' ? 'カートが空です。' : 'Cart is empty.');
-        return;
-      }
-      const items = cart.map(i => ({
-        name: currentLang === 'ja' ? i.nameJa : i.nameEn,
-        unit_amount: i.priceJpy * 100,
-        quantity: i.qty
-      }));
-      try {
-        const res = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ items })
-        });
-        const data = await res.json();
-        if (data.url) window.location = data.url;
-        else alert(currentLang === 'ja' ? 'チェックアウトでエラーが発生しました。' : 'Checkout error. Please try again.');
-      } catch {
-        alert(currentLang === 'ja' ? 'ネットワークエラーです。もう一度お試しください。' : 'Network error. Please try again.');
+    document.getElementById("checkout").addEventListener("click", async () => {
+  try {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    if (data.url) window.location = data.url;
+    else alert("Checkout failed. Please try again.");
+  } catch {
+    alert("Network error. Please try again.");
       }
     });
 

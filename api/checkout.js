@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       mode: "payment",
       line_items: [
         {
-          price: "REPLACE_WITH_YOUR_PRICE_ID", // e.g. price_12345 from Stripe dashboard
+          price: "price_1SHSXpE1zq0iMeIXs0rAL10b", // e.g. price_12345 from Stripe dashboard
           quantity: 1,
         },
       ],

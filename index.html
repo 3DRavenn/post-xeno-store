@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POST XENO — Store</title>
+  <meta name="description" content="POST XENO store with cart and Stripe Checkout." />
+  <style>
+    :root { --bg:#0a0a0a; --card:#141414; --muted:#9aa0a6; --text:#e8eaed; --border:#222; --accent:#fff; }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%;height:auto;border-radius:16px}
+    header,footer{max-width:1100px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:baseline;gap:10px}
+    .brand h1{margin:0;font-size:20px;letter-spacing:.12em}
+    .tag{color:var(--muted);font-size:12px}
+    nav{display:flex;gap:12px;flex-wrap:wrap}
+    .chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;background:transparent}
+    .wrap{max-width:1100px;padding:20px;margin:0 auto}
+    .hero{margin:10px 0 24px;padding:16px;border:1px dashed var(--border);border-radius:16px;color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    @media (max-width:1100px){.grid{grid-template-columns:1fr 1fr 1fr}}
+    @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,#151515,#101010);border:1px solid var(--border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:14px}
+    .title{font-weight:600;font-size:16px}
+    .price{color:var(--accent);font-weight:700;font-size:18px}
+    .desc{color:var(--muted);font-size:13px;line-height:1.5}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#ffffff10;color:var(--text);font-weight:600;cursor:pointer;transition:transform .06s}
+    .btn:hover{transform:translateY(-1px)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .legal{margin-top:28px;color:var(--muted);font-size:12px}
+    /* Cart drawer */
+    .cart-toggle{position:relative}
+    .cart-count{position:absolute;top:-8px;right:-8px;background:#fff;color:#000;border-radius:999px;font-size:11px;padding:2px 6px}
+    .drawer{position:fixed;top:0;right:0;height:100%;width:380px;max-width:92vw;background:#101010;border-left:1px solid var(--border);transform:translateX(100%);transition:transform .2s ease;z-index:30;display:flex;flex-direction:column}
+    .drawer.open{transform:translateX(0)}
+    .drawer header{padding:16px;border-bottom:1px solid var(--border)}
+    .drawer main{padding:16px;overflow:auto;flex:1}
+    .drawer footer{padding:16px;border-top:1px solid var(--border)}
+    .cart-item{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--border);padding:10px 0}
+    .qty{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:10px}
+    .qty button{background:transparent;border:0;color:var(--text);padding:6px 10px;font-size:16px;cursor:pointer}
+    .qty span{min-width:24px;text-align:center}
+    .newsletter{margin-top:36px;border:1px solid var(--border);border-radius:16px;padding:16px;background:#111}
+    input[type="email"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#0b0b0b;color:var(--text);margin:8px 0}
+    .small{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>POST XENO</h1>
+      <span class="tag">Store</span>
+    </div>
+    <nav>
+      <a class="chip" href="./disclosure.html">特定商取引法に基づく表記</a>
+      <a class="chip" href="mailto:postxenohelp@gmail.com">Contact</a>
+      <button id="openCart" class="chip cart-toggle">Cart <span id="cartCount" class="cart-count" hidden>0</span></button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>税込価格。カートに追加して一括チェックアウト（Stripe）。送料はチェックアウト時に計算されます。</div>
+      <div class="small">Prices include tax. Shipping calculated at checkout.</div>
+    </section>
+
+    <section class="grid" aria-label="Products">
+      
+      <article class="card" data-name="POST XENO Belt Chain Accessory" data-pricejpy="5000" data-img="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" alt="POST XENO Belt Chain Accessory" />
+        <div class="title">POST XENO Belt Chain Accessory</div>
+        <div class="row">
+          <div class="price">¥5,000（税込）</div>
+          <button class="btn add">Add to cart</button>
+        </div>
+        <div class="desc">Limited run. Ships worldwide.</div>
+      </article>
+      <article class="card" data-name="POST XENO Fur Jacket" data-pricejpy="30000" data-img="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop" alt="POST XENO Fur Jacket" />
+        <div class="title">POST XENO Fur Jacket</div>
+        <div class="row">
+          <div class="price">¥30,000（税込）</div>
+          <button class="btn add">Add to cart</button>
+        </div>
+        <div class="desc">Limited run. Ships worldwide.</div>
+      </article>
+      <article class="card" data-name="POST XENO Fallen Angel Tee (Black)" data-pricejpy="8000" data-img="https://images.unsplash.com/photo-1517090172524-6fa93698f7e9?q=80&w=1200&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1517090172524-6fa93698f7e9?q=80&w=1200&auto=format&fit=crop" alt="POST XENO Fallen Angel Tee (Black)" />
+        <div class="title">POST XENO Fallen Angel Tee (Black)</div>
+        <div class="row">
+          <div class="price">¥8,000（税込）</div>
+          <button class="btn add">Add to cart</button>
+        </div>
+        <div class="desc">Limited run. Ships worldwide.</div>
+      </article>
+      <article class="card" data-name="POST XENO Fallen Angel Tee (Grey)" data-pricejpy="8000" data-img="https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=1200&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=1200&auto=format&fit=crop" alt="POST XENO Fallen Angel Tee (Grey)" />
+        <div class="title">POST XENO Fallen Angel Tee (Grey)</div>
+        <div class="row">
+          <div class="price">¥8,000（税込）</div>
+          <button class="btn add">Add to cart</button>
+        </div>
+        <div class="desc">Limited run. Ships worldwide.</div>
+      </article>
+    </section>
+
+    <section class="newsletter">
+      <h3 style="margin:0 0 10px 0;">Newsletter</h3>
+      <!-- Replace action URL with your Mailchimp/Buttondown form action -->
+      <form id="newsletter" action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&id=YOUR_ID" method="post" target="_blank" novalidate>
+        <label for="email">メールアドレス / Email</label>
+        <input type="email" name="EMAIL" id="email" placeholder="you@example.com" required />
+        <button class="btn" type="submit">Subscribe</button>
+        <div class="small">We’ll only email occasionally. Unsubscribe anytime.</div>
+      </form>
+    </section>
+
+    <section class="legal">
+      <div>販売業者名：Elais Naguibine（屋号：Post Xeno）｜ メール：postxenohelp@gmail.com</div>
+      <div>価格は税込表示です。送料はチェックアウト時に計算されます。</div>
+    </section>
+  </main>
+
+  <!-- Cart Drawer -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <header>
+      <strong>Cart</strong>
+    </header>
+    <main id="cartItems"></main>
+    <footer>
+      <div class="row" style="margin-bottom:10px;">
+        <span class="small">Subtotal (approx):</span>
+        <strong id="subtotal">¥0</strong>
+      </div>
+      <button id="checkout" class="btn" style="width:100%;">Checkout with Stripe</button>
+      <div class="small" style="margin-top:8px;">Shipping & taxes (if any) calculated at checkout.</div>
+    </footer>
+  </aside>
+
+  <script>
+    // --- Simple cart state (no backend needed for cart itself) ---
+    const cart = []; // {name, qty, priceJpy, img}
+    const drawer = document.getElementById('drawer');
+    const cartItemsEl = document.getElementById('cartItems');
+    const subtotalEl = document.getElementById('subtotal');
+    const cartCount = document.getElementById('cartCount');
+
+    function openCart() { drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); renderCart(); }
+    function closeCart() { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+    document.getElementById('openCart').addEventListener('click', () => { openCart(); });
+
+    function addToCartFromCard(card){
+      const name = card.dataset.name;
+      const priceJpy = parseInt(card.dataset.pricejpy,10);
+      const img = card.dataset.img;
+
+      const existing = cart.find(i => i.name === name);
+      if (existing) existing.qty += 1;
+      else cart.push({name, qty:1, priceJpy, img});
+      renderCart();
+    }
+
+    function removeItem(name){
+      const idx = cart.findIndex(i => i.name === name);
+      if (idx >= 0) cart.splice(idx,1);
+      renderCart();
+    }
+
+    function setQty(name, delta){
+      const item = cart.find(i => i.name === name);
+      if(!item) return;
+      item.qty = Math.max(1, item.qty + delta);
+      renderCart();
+    }
+
+    function renderCart(){
+      cartItemsEl.innerHTML = '';
+      let subtotal = 0;
+      cart.forEach(item => {
+        subtotal += item.priceJpy * item.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" style="width:56px;height:56px;object-fit:cover;border-radius:10px;" />
+          <div>
+            <div style="font-weight:600">${item.name}</div>
+            <div class="small">¥${item.priceJpy.toLocaleString()} × ${item.qty}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+            <div class="qty">
+              <button aria-label="decrease" onclick="setQty('checkout.js', -1)">−</button>
+              <span>${item.qty}</span>
+              <button aria-label="increase" onclick="setQty('checkout.js', 1)">＋</button>
+            </div>
+            <button class="small" style="background:transparent;border:0;color:#bbb;cursor:pointer" onclick="removeItem('checkout.js')">Remove</button>
+          </div>
+        `.replaceAll('{name}', item.name);
+        cartItemsEl.appendChild(row);
+      });
+      subtotalEl.textContent = '¥' + subtotal.toLocaleString();
+      const count = cart.reduce((a,b)=>a+b.qty,0);
+      if (count > 0){ cartCount.hidden = false; cartCount.textContent = count; } else { cartCount.hidden = true; }
+    }
+
+    document.querySelectorAll('.card .add').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.card');
+        addToCartFromCard(card);
+        openCart();
+      });
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+    // Checkout with inline price_data (no Price IDs required)
+    document.getElementById('checkout').addEventListener('click', async () => {
+      if (cart.length === 0) return alert('Cart is empty.');
+      // send items: name, unit_amount (JPY), quantity
+      const items = cart.map(i => ({ name: i.name, unit_amount: i.priceJpy * 100, quantity: i.qty }));
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ items })
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location = data.url;
+        } else {
+          alert('Checkout error. Please try again.');
+        }
+      } catch (err) {
+        alert('Network error. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

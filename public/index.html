@@ -104,7 +104,7 @@
   <main class="wrap">
     <section class="grid" aria-label="Products">
       <!-- Product cards (now with both JP/EN names) -->
-      <article class="card" data-name-ja="POST XENO ベルトチェーンアクセサリー" data-name-en="POST XENO Belt Chain Accessory" data-pricejpy="5000" data-img="">
+      <article class="card" data-id="belt-chain" data-name-ja="POST XENO ベルトチェーンアクセサリー" data-name-en="POST XENO Belt Chain Accessory" data-pricejpy="5000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO ベルトチェーンアクセサリー" data-en="POST XENO Belt Chain Accessory">POST XENO ベルトチェーンアクセサリー</div>
         <div class="row">
@@ -113,7 +113,7 @@
         </div>
       </article>
 
-      <article class="card" data-name-ja="POST XENO ファージャケット" data-name-en="POST XENO Fur Jacket" data-pricejpy="30000" data-img="">
+      <article class="card" data-id="fur-jacket" data-name-ja="POST XENO ファージャケット" data-name-en="POST XENO Fur Jacket" data-pricejpy="30000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO ファージャケット" data-en="POST XENO Fur Jacket">POST XENO ファージャケット</div>
         <div class="row">
@@ -122,7 +122,7 @@
         </div>
       </article>
 
-      <article class="card" data-name-ja="POST XENO フォールンエンジェルTシャツ（ブラック）" data-name-en="POST XENO Fallen Angel Tee (Black)" data-pricejpy="8000" data-img="">
+      <article class="card" data-id="fallen-angel-tee-black" data-name-ja="POST XENO フォールンエンジェルTシャツ（ブラック）" data-name-en="POST XENO Fallen Angel Tee (Black)" data-pricejpy="8000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO フォールンエンジェルTシャツ（ブラック）" data-en="POST XENO Fallen Angel Tee (Black)">POST XENO フォールンエンジェルTシャツ（ブラック）</div>
         <div class="row">
@@ -131,7 +131,7 @@
         </div>
       </article>
 
-      <article class="card" data-name-ja="POST XENO フォールンエンジェルTシャツ（グレー）" data-name-en="POST XENO Fallen Angel Tee (Grey)" data-pricejpy="8000" data-img="">
+      <article class="card" data-id="fallen-angel-tee-grey" data-name-ja="POST XENO フォールンエンジェルTシャツ（グレー）" data-name-en="POST XENO Fallen Angel Tee (Grey)" data-pricejpy="8000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO フォールンエンジェルTシャツ（グレー）" data-en="POST XENO Fallen Angel Tee (Grey)">POST XENO フォールンエンジェルTシャツ（グレー）</div>
         <div class="row">
@@ -192,6 +192,7 @@
     document.querySelectorAll('.card .add').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const card = e.target.closest('.card');
+        const id = card.dataset.id;   
         const key = card.dataset.price || card.dataset.nameEn; // unique-ish key
         const nameJa = card.dataset.nameJa;
         const nameEn = card.dataset.nameEn;
@@ -261,17 +262,27 @@
     });
 
     // Checkout (inline price_data)
-    document.getElementById("checkout").addEventListener("click", async () => {
+    document.getElementById("checkout").addEventListener("click", async ()
+
+     if (cart.length === 0) {
+    alert(currentLang === 'ja' ? 'カートが空です。' : 'Cart is empty.');
+    return;
+  }
+  // Send only ID + quantity (server decides real prices)
+  const items = cart.map(i => ({ id: i.id, quantity: i.qty }));
+
   try {
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ items })
     });
     const data = await res.json();
     if (data.url) window.location = data.url;
-    else alert("Checkout failed. Please try again.");
+    else alert(currentLang === 'ja' ? 'チェックアウトでエラーが発生しました。' : 'Checkout error. Please try again.');
   } catch {
-    alert("Network error. Please try again.");
+    alert(currentLang === 'ja' ? 'ネットワークエラーです。もう一度お試しください。' : 'Network error. Please try again.');                                             
+                                                         
       }
     });
 

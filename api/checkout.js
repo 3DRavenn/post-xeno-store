@@ -1,46 +1,35 @@
-// File: api/checkout.js
-// Vercel serverless function — CommonJS
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// /api/checkout.js
+import Stripe from "stripe";
 
-module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2024-06-20",
+});
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed" });
   }
+
   try {
-    const { items } = req.body;
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ error: 'No items' });
-    }
+    const origin = req.headers.origin || `https://${req.headers.host}`;
 
-    // Build base URL from env (recommended) or from headers as fallback
-    const baseUrl = process.env.PUBLIC_BASE_URL ||
-      `${(req.headers['x-forwarded-proto'] || 'https')}://${req.headers.host}`;
-
-    const line_items = items.map(i => ({
-      price_data: {
-        currency: 'jpy',
-        unit_amount: i.unit_amount, // in yen * 100 already on client
-        product_data: { name: i.name }
-      },
-      quantity: i.quantity
-    }));
-
+    // TEMP TEST: Create a checkout session for one test product
     const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items,
-      success_url: `${baseUrl}/success.html`,
-      cancel_url: `${baseUrl}/`,
-      shipping_address_collection: {
-        allowed_countries: ['JP','US','CA','GB','AU','DE','FR','NL','SE','IT','ES','KR','SG','HK']
-      },
-      phone_number_collection: { enabled: false },
+      mode: "payment",
+      line_items: [
+        {
+          price: "REPLACE_WITH_YOUR_PRICE_ID", // e.g. price_12345 from Stripe dashboard
+          quantity: 1,
+        },
+      ],
+      success_url: `${origin}/success.html`,
+      cancel_url: `${origin}/`,
     });
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: 'Stripe error' });
+    return res.status(500).json({ error: "Checkout failed" });
   }
-};
+}

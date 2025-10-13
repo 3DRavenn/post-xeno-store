@@ -6,11 +6,9 @@
   <title>POST XENO — Store</title>
   <meta name="description" content="POST XENO store." />
 
-  <!-- Font preload -->
   <link rel="preload" href="/fonts/redseven.ttf?v=2" as="font" type="font/ttf" crossorigin>
 
   <style>
-    /* Custom logo font */
     @font-face {
       font-family: "Red Seven";
       src: url("/fonts/redseven.ttf?v=2") format("truetype");
@@ -18,17 +16,13 @@
       font-style: normal;
       font-display: swap;
     }
-
     :root { --bg:#0a0a0a; --card:#141414; --muted:#9aa0a6; --text:#e8eaed; --border:#222; --accent:#fff; }
     *{box-sizing:border-box}
-    body{
-      margin:0;background:var(--bg);color:var(--text);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif
-    }
+    body{ margin:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif }
     a{color:inherit;text-decoration:none}
     header,footer{max-width:1100px;margin:0 auto;padding:20px}
     header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:baseline;gap:10px}
     .brand h1{margin:0;font-size:36px;font-family:"Red Seven",sans-serif;letter-spacing:.14em}
     nav{display:flex;gap:12px;flex-wrap:wrap}
     .chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;background:transparent;cursor:pointer}
@@ -45,7 +39,6 @@
     .btn:hover{transform:translateY(-1px)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
     .ph{width:100%;height:220px;border-radius:16px;background:linear-gradient(180deg,#1b1b1b,#0f0f0f);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:12px;letter-spacing:.06em}
-    /* Cart drawer */
     .cart-toggle{position:relative}
     .cart-count{position:absolute;top:-8px;right:-8px;background:#fff;color:#000;border-radius:999px;font-size:11px;padding:2px 6px}
     .drawer{position:fixed;top:0;right:0;height:100%;width:380px;max-width:92vw;background:#101010;border-left:1px solid var(--border);transform:translateX(100%);transition:transform .2s ease;z-index:30;display:flex;flex-direction:column}
@@ -64,90 +57,47 @@
 </head>
 <body>
   <header>
-    <div class="brand">
-      <h1 data-ja="POST XENO" data-en="POST XENO">POST XENO</h1>
-    </div>
+    <div class="brand"><h1 data-ja="POST XENO" data-en="POST XENO">POST XENO</h1></div>
     <nav>
-      <a class="chip" href="mailto:postxenohelp@gmail.com">
-        <span data-ja="お問い合わせ" data-en="Contact">お問い合わせ</span>
-      </a>
-
-      <!-- Gallery → Instagram -->
+      <a class="chip" href="mailto:postxenohelp@gmail.com"><span data-ja="お問い合わせ" data-en="Contact">お問い合わせ</span></a>
+      <!-- Gallery button -->
       <a class="chip" href="https://www.instagram.com/post_xeno" target="_blank" rel="noopener noreferrer">
         <span data-ja="ギャラリー" data-en="Gallery">ギャラリー</span>
       </a>
-
-      <button id="openCart" class="chip cart-toggle">
-        <span data-ja="カート" data-en="Cart">カート</span>
-        <span id="cartCount" class="cart-count" hidden>0</span>
-      </button>
+      <button id="openCart" class="chip cart-toggle"><span data-ja="カート" data-en="Cart">カート</span><span id="cartCount" class="cart-count" hidden>0</span></button>
       <button id="langToggle" class="chip">English</button>
     </nav>
   </header>
 
   <main class="wrap">
     <section class="grid" aria-label="Products">
-      <!-- Product cards (include data-id for server mapping) -->
-      <article class="card"
-        data-id="belt-chain"
-        data-name-ja="POST XENO ベルトチェーンアクセサリー"
-        data-name-en="POST XENO Belt Chain Accessory"
-        data-pricejpy="5000" data-img="">
+      <article class="card" data-id="belt-chain" data-name-ja="POST XENO ベルトチェーンアクセサリー" data-name-en="POST XENO Belt Chain Accessory" data-pricejpy="5000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO ベルトチェーンアクセサリー" data-en="POST XENO Belt Chain Accessory">POST XENO ベルトチェーンアクセサリー</div>
-        <div class="row">
-          <div class="price" data-ja="¥5,000" data-en="¥5,000">¥5,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button>
-        </div>
+        <div class="row"><div class="price" data-ja="¥5,000" data-en="¥5,000">¥5,000</div><button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button></div>
       </article>
 
-      <article class="card"
-        data-id="fur-jacket"
-        data-name-ja="POST XENO ファージャケット"
-        data-name-en="POST XENO Fur Jacket"
-        data-pricejpy="30000" data-img="">
+      <article class="card" data-id="fur-jacket" data-name-ja="POST XENO ファージャケット" data-name-en="POST XENO Fur Jacket" data-pricejpy="30000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO ファージャケット" data-en="POST XENO Fur Jacket">POST XENO ファージャケット</div>
-        <div class="row">
-          <div class="price" data-ja="¥30,000" data-en="¥30,000">¥30,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button>
-        </div>
+        <div class="row"><div class="price" data-ja="¥30,000" data-en="¥30,000">¥30,000</div><button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button></div>
       </article>
 
-      <article class="card"
-        data-id="fallen-angel-tee-black"
-        data-name-ja="POST XENO フォールンエンジェルTシャツ（ブラック）"
-        data-name-en="POST XENO Fallen Angel Tee (Black)"
-        data-pricejpy="8000" data-img="">
+      <article class="card" data-id="fallen-angel-tee-black" data-name-ja="POST XENO フォールンエンジェルTシャツ（ブラック）" data-name-en="POST XENO Fallen Angel Tee (Black)" data-pricejpy="8000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO フォールンエンジェルTシャツ（ブラック）" data-en="POST XENO Fallen Angel Tee (Black)">POST XENO フォールンエンジェルTシャツ（ブラック）</div>
-        <div class="row">
-          <div class="price" data-ja="¥8,000" data-en="¥8,000">¥8,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button>
-        </div>
+        <div class="row"><div class="price" data-ja="¥8,000" data-en="¥8,000">¥8,000</div><button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button></div>
       </article>
 
-      <article class="card"
-        data-id="fallen-angel-tee-grey"
-        data-name-ja="POST XENO フォールンエンジェルTシャツ（グレー）"
-        data-name-en="POST XENO Fallen Angel Tee (Grey)"
-        data-pricejpy="8000" data-img="">
+      <article class="card" data-id="fallen-angel-tee-grey" data-name-ja="POST XENO フォールンエンジェルTシャツ（グレー）" data-name-en="POST XENO Fallen Angel Tee (Grey)" data-pricejpy="8000" data-img="">
         <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON">画像準備中</div>
         <div class="title" data-ja="POST XENO フォールンエンジェルTシャツ（グレー）" data-en="POST XENO Fallen Angel Tee (Grey)">POST XENO フォールンエンジェルTシャツ（グレー）</div>
-        <div class="row">
-          <div class="price" data-ja="¥8,000" data-en="¥8,000">¥8,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button>
-        </div>
+        <div class="row"><div class="price" data-ja="¥8,000" data-en="¥8,000">¥8,000</div><button class="btn add" data-ja="カートに追加" data-en="Add to Cart">カートに追加</button></div>
       </article>
     </section>
 
     <section class="newsletter">
-      <h3 style="margin:0 0 10px 0; font-weight:600;"
-          data-ja="新作・限定リリース・特別オファーをいち早く受け取る"
-          data-en="Sign up for early access to future drops, limited releases, and exclusive offers.">
-        新作・限定リリース・特別オファーをいち早く受け取る
-      </h3>
-      <!-- Replace with your real Mailchimp/Buttondown form action -->
+      <h3 style="margin:0 0 10px 0; font-weight:600;" data-ja="新作・限定リリース・特別オファーをいち早く受け取る" data-en="Sign up for early access to future drops, limited releases, and exclusive offers.">新作・限定リリース・特別オファーをいち早く受け取る</h3>
       <form id="newsletter" action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&id=YOUR_ID" method="post" target="_blank" novalidate>
         <label for="email" style="font-size:14px; color:#aaa;" data-ja="メールアドレス" data-en="Email address">メールアドレス</label>
         <input type="email" name="EMAIL" id="email" placeholder="" required />
@@ -156,7 +106,6 @@
     </section>
   </main>
 
-  <!-- Cart Drawer -->
   <aside class="drawer" id="drawer" aria-hidden="true">
     <header style="display:flex;align-items:center;justify-content:space-between;">
       <strong data-ja="カート" data-en="Cart">カート</strong>
@@ -174,45 +123,39 @@
   </aside>
 
   <script>
-    // --- Cart state ---
-    // items: { id, nameJa, nameEn, qty, priceJpy, img }
+    // items: { id, nameJa, nameEn, qty, priceJpy }
     const cart = [];
     const drawer = document.getElementById('drawer');
     const cartItemsEl = document.getElementById('cartItems');
     const subtotalEl = document.getElementById('subtotal');
     const cartCount = document.getElementById('cartCount');
 
-    // Open/close
     function openCart(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); renderCart(); }
     function closeCart(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
     document.getElementById('openCart').addEventListener('click', openCart);
     document.getElementById('closeCart').addEventListener('click', closeCart);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
 
-    // Add from product cards (store id + names)
     document.querySelectorAll('.card .add').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const card = e.target.closest('.card');
-        const id = card.dataset.id; // required for server mapping
+        const id = card.dataset.id;
         const nameJa = card.dataset.nameJa;
         const nameEn = card.dataset.nameEn;
-        const priceJpy = parseInt(card.dataset.pricejpy,10);
-        const img = card.dataset.img || '';
+        const priceJpy = parseInt(card.dataset.pricejpy, 10);
 
         const existing = cart.find(i => i.id === id);
         if (existing) existing.qty += 1;
-        else cart.push({ id, nameJa, nameEn, qty: 1, priceJpy, img });
+        else cart.push({ id, nameJa, nameEn, qty: 1, priceJpy });
 
         openCart();
         renderCart();
       });
     });
 
-    // Render cart
     function renderCart(){
       cartItemsEl.innerHTML = '';
       let subtotal = 0;
-
       cart.forEach(item => {
         subtotal += item.priceJpy * item.qty;
         const row = document.createElement('div');
@@ -230,20 +173,17 @@
               <button class="qty-btn" data-action="inc" data-key="${item.id}">＋</button>
             </div>
             <button class="small remove-btn" data-action="remove" data-key="${item.id}" style="background:transparent;border:0;color:#bbb;cursor:pointer" data-ja="削除" data-en="Remove">削除</button>
-          </div>
-        `;
+          </div>`;
         cartItemsEl.appendChild(row);
       });
 
       subtotalEl.textContent = '¥' + subtotal.toLocaleString();
       const count = cart.reduce((a,b)=>a+b.qty,0);
-      if (count > 0){ cartCount.hidden = false; cartCount.textContent = count; } else { cartCount.hidden = true; }
-
-      // Re-translate dynamic elements (e.g., Remove)
+      cartCount.hidden = count === 0;
+      if (!cartCount.hidden) cartCount.textContent = count;
       setLanguage(currentLang);
     }
 
-    // Event delegation for + / − / Remove
     cartItemsEl.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
       if (!btn) return;
@@ -254,71 +194,56 @@
 
       if (action === 'inc') item.qty += 1;
       if (action === 'dec') item.qty = Math.max(1, item.qty - 1);
-      if (action === 'remove') {
-        const idx = cart.findIndex(i => i.id === key);
-        if (idx >= 0) cart.splice(idx,1);
-      }
+      if (action === 'remove') cart.splice(cart.findIndex(i => i.id === key), 1);
       renderCart();
     });
 
-    // Checkout (send only id + quantity)
+    // Checkout: send only {id, quantity}
     document.getElementById('checkout').addEventListener('click', async () => {
       if (cart.length === 0) {
         alert(currentLang === 'ja' ? 'カートが空です。' : 'Cart is empty.');
         return;
       }
       const items = cart.map(i => ({ id: i.id, quantity: i.qty }));
-
       try {
         const res = await fetch('/api/checkout', {
           method: 'POST',
-          headers: { 'Content-Type':'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items })
         });
         const data = await res.json();
-        if (data.url) {
-          window.location = data.url;
-        } else {
-          alert(currentLang === 'ja' ? 'チェックアウトでエラーが発生しました。' : 'Checkout error. Please try again.');
-        }
-      } catch (e) {
+        if (data.url) window.location = data.url;
+        else alert(currentLang === 'ja' ? 'チェックアウトでエラーが発生しました。' : 'Checkout error. Please try again.');
+      } catch (err) {
         alert(currentLang === 'ja' ? 'ネットワークエラーです。もう一度お試しください。' : 'Network error. Please try again.');
       }
     });
 
-    // --- Language toggle (JP default, persists across visits) ---
+    // Language toggle
     let currentLang = localStorage.getItem('lang') || 'ja';
     const toggleBtn = document.getElementById('langToggle');
-
     function setLanguage(lang){
       toggleBtn.textContent = lang === 'ja' ? 'English' : '日本語';
       document.querySelectorAll('[data-ja]').forEach(el => {
         const txt = el.getAttribute(`data-${lang}`);
-        if (txt !== null) el.textContent = txt;
+        if (txt != null) el.textContent = txt;
       });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      setLanguage(currentLang);
-    });
-
+    document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
     toggleBtn.addEventListener('click', () => {
       currentLang = currentLang === 'ja' ? 'en' : 'ja';
       localStorage.setItem('lang', currentLang);
       setLanguage(currentLang);
-      renderCart(); // refresh labels in the cart
+      renderCart();
     });
   </script>
 
   <footer style="text-align:center; padding:20px; font-size:12px; color:#777;">
-    © 2025 POST XENO —
-    <a href="./legal.html" style="color:#777; text-decoration:none;" data-ja="法的情報 / Legal Information" data-en="Legal Information / 法的情報">法的情報 / Legal Information</a>
+    © 2025 POST XENO — <a href="./legal.html" style="color:#777; text-decoration:none;" data-ja="法的情報 / Legal Information" data-en="Legal Information / 法的情報">法的情報 / Legal Information</a>
   </footer>
 
   <!-- Vercel Web Analytics (static HTML) -->
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
+  <script>window.va = window.va || function(){ (window.vaq = window.vaq || []).push(arguments) };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

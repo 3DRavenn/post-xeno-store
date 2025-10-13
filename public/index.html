@@ -8,7 +8,7 @@
 
   <!-- Font -->
   <link rel="preload" href="/fonts/redseven.ttf?v=2" as="font" type="font/ttf" crossorigin>
-  <!-- Added: Preload JP font so it loads fast -->
+  <!-- Preload JP font -->
   <link rel="preload" href="/fonts/MakinasJP.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
@@ -20,19 +20,18 @@
       font-display: swap;
     }
 
-    /* Added: Register JP-only font (only Japanese chars will use this) */
+    /* JP font — only used for Japanese glyphs */
     @font-face {
       font-family: "MakinasJP";
       src: url("/fonts/MakinasJP.woff2") format("woff2");
       font-display: swap;
-      /* Japanese ranges: punctuation, hiragana, katakana, kanji, full/half width */
       unicode-range:
-        U+3000-303F,
-        U+3040-309F,
-        U+30A0-30FF,
-        U+31F0-31FF,
-        U+4E00-9FFF,
-        U+FF00-FFEF;
+        U+3000-303F,  /* JP punctuation */
+        U+3040-309F,  /* Hiragana */
+        U+30A0-30FF,  /* Katakana */
+        U+31F0-31FF,  /* Katakana extensions */
+        U+4E00-9FFF,  /* Kanji */
+        U+FF00-FFEF;  /* Half/Full width */
     }
 
     :root { --bg:#0a0a0a; --card:#141414; --muted:#9aa0a6; --text:#e8eaed; --border:#222; --accent:#fff; }
@@ -75,10 +74,13 @@
     input[type="email"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#0b0b0b;color:#fff;margin:8px 0}
     .small{font-size:12px;color:var(--muted)}
 
-    /* Added: Use the JP font only in these areas */
-    .card .title { font-family: "MakinasJP", inherit; }            /* product names */
-    .drawer .cart-item-title { font-family: "MakinasJP", inherit; }/* cart item names */
-    .newsletter h3 { font-family: "MakinasJP", inherit; }          /* newsletter header */
+    /* Apply JP font only where needed (safe CSS-only way) */
+    /* Product names on cards */
+    .card .title { font-family: "MakinasJP", sans-serif; }
+    /* Newsletter signup header (your markup uses h3) */
+    .newsletter > h3 { font-family: "MakinasJP", sans-serif; }
+    /* Cart drawer item names — target the first <div> inside the second column of .cart-item */
+    .drawer .cart-item > div:nth-child(2) > div:first-child { font-family: "MakinasJP", sans-serif; font-weight:600; }
   </style>
 </head>
 <body>
@@ -233,8 +235,7 @@
         row.innerHTML = `
           <div style="width:56px;height:56px;border-radius:10px;background:#1b1b1b;border:1px solid #222"></div>
           <div>
-            <!-- Added class so CSS can target JP font in cart item names -->
-            <div class="cart-item-title" style="font-weight:600">${currentLang === 'ja' ? item.nameJa : item.nameEn}</div>
+            <div style="font-weight:600">${currentLang === 'ja' ? item.nameJa : item.nameEn}</div>
             <div class="small">¥${item.priceJpy.toLocaleString()} × ${item.qty}</div>
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">

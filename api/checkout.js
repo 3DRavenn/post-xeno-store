@@ -1,6 +1,7 @@
 // api/checkout.js (CommonJS)
-const Stripe = require("stripe");
+import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 /**
  * Expects { items: [{ id: string, quantity: number }] }

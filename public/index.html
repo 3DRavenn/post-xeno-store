@@ -238,24 +238,49 @@
       renderCart();
     });
 
-    // Checkout: send only { id, quantity }
-    document.getElementById('checkout').addEventListener('click', async () => {
-      if (cart.length === 0) {
-        alert(currentLang === 'ja' ? 'カートが空です。' : 'Cart is empty.');
-        return;
-      }
-      const items = cart.map(i => ({ id: i.id, quantity: i.qty }));
-      try {
-        const res = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items })
-        });
-        const data = await res.json();
-        if (data.url) window.location = data.url;
-        else alert(currentLang === 'ja' ? 'チェックアウトでエラーが発生しました。' : 'Checkout error. Please try again.');
-      } catch {
-        alert(currentLang === 'ja' ? 'ネットワークエラーです。もう一度お試しください。' : 'Network error. Please try again.');
+// ✅ Checkout: send only { id, quantity }
+document.getElementById('checkout').addEventListener('click', async () => {
+  if (cart.length === 0) {
+    alert(currentLang === 'ja' ? 'カートが空です。' : 'Cart is empty.');
+    return;
+  }
+
+  const items = cart.map(i => ({ id: i.id, quantity: i.qty }));
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.url) {
+      window.location = data.url;
+    } else {
+      console.error('Checkout error:', data);
+      alert(currentLang === 'ja'
+        ? `チェックアウトに失敗しました: ${data?.error || '不明なエラー'}`
+        : `Checkout failed: ${data?.error || 'Unknown error'}`);
+    }
+  } catch (err) {
+    console.error('Network error:', err);
+    alert(currentLang === 'ja'
+      ? 'ネットワークエラーです。もう一度お試しください。'
+      : 'Network error. Please try again.');
+  }
+});
+
+    // Language toggle
+    let currentLang = localStorage.getItem('lang') || 'ja';
+    const toggleBtn = document.getElementById('langToggle');
+    function setLanguage(lang){
+      toggleBtn.textContent = lang === 'ja' ? 'English' : '日本語';
+      document.querySelectorAll('[data-ja]').forEach(el => {
+        const txt = el.getAttribute(`data-${lang}`);
+        if (txt != null) el.textContent = txt;
+        
       }
     });
 

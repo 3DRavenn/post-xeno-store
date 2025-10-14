@@ -37,7 +37,7 @@
       font-family: "PX-CyrHead";
       src: url("/fonts/px-cyrhead.woff2") format("woff2");
       font-display: swap;
-      font-weight: 600; /* heading weight */
+      font-weight: 600;
       font-style: normal;
     }
 
@@ -47,7 +47,6 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      /* EN/RU default stack (unchanged from before) */
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     }
     a { color: inherit; text-decoration: none }
@@ -67,7 +66,8 @@
       font-size: 19px; color: var(--muted); line-height: 1; letter-spacing: .03em;
     }
 
-    nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center }
+    /* Nav + chips */
+    nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
     .chip {
       padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px;
       color: var(--muted); font-size: 12px; background: transparent; cursor: pointer; transition: all .2s;
@@ -89,35 +89,26 @@
       display: flex; flex-direction: column; gap: 14px;
     }
 
-    /* === Headings/text in product names, cart item names, newsletter header ===
-       Default (EN + RU): use neutral UI stack (no JP font here)
-    */
+    /* Product names, cart item names, newsletter header */
     .title,
     .drawer .cart-item-title,
     .newsletter h3 {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: 0em;
-      word-spacing: 0em;
-      line-height: 1.2;
-      font-weight: 600; /* keep them sturdy */
+      letter-spacing: 0em; word-spacing: 0em; line-height: 1.2; font-weight: 600;
     }
-
-    /* Apply MakinasJP ONLY when Japanese is selected */
+    /* Use Makinas for JA selection */
     body.ja-active .title,
     body.ja-active .drawer .cart-item-title,
     body.ja-active .newsletter h3 {
       font-family: "MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif !important;
-      letter-spacing: 0em;
-      word-spacing: 0em;
+      letter-spacing: 0em; word-spacing: 0em;
     }
-
-    /* Apply Cyrillic heading font ONLY when Russian is selected */
+    /* Use PX-CyrHead for RU selection */
     body.ru-active .title,
     body.ru-active .drawer .cart-item-title,
     body.ru-active .newsletter h3 {
       font-family: "PX-CyrHead","Noto Sans","Roboto","Helvetica Neue",Arial,sans-serif !important;
-      letter-spacing: 0em;   /* the font handles spacing well */
-      word-spacing: 0em;
+      letter-spacing: 0em; word-spacing: 0em;
     }
 
     .price { color: var(--accent); font-weight: 700; font-size: 18px }
@@ -154,6 +145,33 @@
     .newsletter { margin-top: 36px; border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #111 }
     input[type="email"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: #0b0b0b; color: #fff; margin: 8px 0 }
     .small { font-size: 12px; color: var(--muted) }
+
+    /* ✅ Responsive nav layout for mobile */
+    @media (max-width: 768px) {
+      header { flex-direction: column; align-items: stretch; gap: 14px; }
+      .brand { align-items: center; }
+      nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .chip {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+      }
+      .lang-switch {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+      .lang-btn {
+        flex: 1;
+        min-width: 80px;
+      }
+    }
   </style>
 </head>
 

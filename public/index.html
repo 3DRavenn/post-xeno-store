@@ -6,11 +6,11 @@
   <title>POST XENO — Store</title>
   <meta name="description" content="POST XENO store." />
 
-  <!-- ✅ Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/favicon.png" />
 
-  <!-- Fonts (ensure these exist in /public/fonts) -->
+  <!-- Fonts -->
   <link rel="preload" href="/fonts/redseven.ttf?v=2" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/fonts/MakinasJP.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -21,7 +21,6 @@
       src: url("/fonts/redseven.ttf?v=2") format("truetype");
       font-display: swap;
     }
-
     /* MakinasJP — JP font where explicitly applied */
     @font-face {
       font-family: "MakinasJP";
@@ -32,105 +31,105 @@
     :root { --bg:#0a0a0a; --card:#141414; --muted:#9aa0a6; --text:#e8eaed; --border:#222; --accent:#fff; }
     * { box-sizing: border-box }
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
     }
-    a { color: inherit; text-decoration: none }
-    header, footer { max-width: 1100px; margin: 0 auto; padding: 20px }
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px }
+    a{ color:inherit; text-decoration:none }
+    header, footer{ max-width:1100px; margin:0 auto; padding:20px }
+    header{ display:flex; align-items:center; justify-content:space-between; gap:16px }
 
     /* Brand block */
-    .brand {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
+    .brand{
+      display:inline-flex; flex-direction:column; align-items:flex-end; gap:4px;
     }
-    .brand h1 {
-      margin: 0;
-      font-size: 36px;
-      letter-spacing: 0.05em;
-      font-family: "Red Seven", sans-serif;
+    .brand h1{
+      margin:0; font-size:36px; letter-spacing:.05em;
+      font-family:"Red Seven",sans-serif;
     }
-    .brand-sub {
-      font-family: "MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif !important;
-      font-size: 19px;
-      color: var(--muted);
-      line-height: 1;
-      letter-spacing: 0.03em;
+    .brand-sub{
+      font-family:"MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif!important;
+      font-size:19px; color:var(--muted); line-height:1; letter-spacing:.03em;
     }
 
-    nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-    .chip {
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 12px;
-      background: transparent;
-      cursor: pointer;
-      transition: all .2s;
+    nav{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .chip{
+      padding:6px 10px; border:1px solid var(--border); border-radius:999px;
+      color:var(--muted); font-size:12px; background:transparent; cursor:pointer; transition:all .2s;
     }
 
     /* Language buttons */
-    .lang-switch { display: flex; gap: 8px; }
-    .lang-btn.active {
-      background: #fff;
-      color: #000;
-      border-color: #fff;
-      font-weight: 700;
+    .lang-switch{ display:flex; gap:8px; }
+    .lang-btn.active{ background:#fff; color:#000; border-color:#fff; font-weight:700; }
+
+    .wrap{ max-width:1100px; padding:20px; margin:0 auto }
+    .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px }
+    @media (max-width:1100px){ .grid{ grid-template-columns:1fr 1fr 1fr } }
+    @media (max-width:900px){ .grid{ grid-template-columns:1fr 1fr } }
+    @media (max-width:640px){ .grid{ grid-template-columns:1fr } }
+
+    .card{
+      background:linear-gradient(180deg,#151515,#101010);
+      border:1px solid var(--border); border-radius:20px; padding:16px;
+      display:flex; flex-direction:column; gap:14px;
     }
 
-    .wrap { max-width: 1100px; padding: 20px; margin: 0 auto }
-    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px }
-    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr 1fr 1fr } }
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr } }
-    @media (max-width: 640px) { .grid { grid-template-columns: 1fr } }
-
-    .card { background: linear-gradient(180deg, #151515, #101010); border: 1px solid var(--border); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 14px }
-
-    /* JP-heavy areas use MakinasJP */
+    /* JP-heavy areas use MakinasJP (spacing neutral by default) */
     .title,
     .drawer .cart-item-title,
-    .newsletter h3 {
-      font-family: "MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif !important;
-      letter-spacing: 0.02em;
+    .newsletter h3{
+      font-family:"MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif!important;
+      letter-spacing:0em;       /* neutral */
+      word-spacing:0em;         /* neutral */
+      line-height:1.2;
     }
 
-    /* ✅ Russian spacing fix (only when RU active) */
+    /* ✅ Only affect Russian spacing when RU is active */
     body.ru-active .title,
-    body.ru-active .newsletter h3 {
-      letter-spacing: 0em !important;
-      word-spacing: 0.02em !important;
+    body.ru-active .drawer .cart-item-title,
+    body.ru-active .newsletter h3{
+      letter-spacing:-0.01em !important;
+      word-spacing:0.01em !important;
+      line-height:1.2;
     }
 
-    .price { color: var(--accent); font-weight: 700; font-size: 18px }
-    .desc { color: var(--muted); font-size: 13px; line-height: 1.5 }
-    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: #ffffff10; color: var(--text); font-weight: 600; cursor: pointer; transition: transform .06s }
-    .btn:hover { transform: translateY(-1px) }
-    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px }
-    .ph { width: 100%; height: 220px; border-radius: 16px; background: linear-gradient(180deg, #1b1b1b, #0f0f0f); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 12px; letter-spacing: .06em }
+    .price{ color:var(--accent); font-weight:700; font-size:18px }
+    .desc{ color:var(--muted); font-size:13px; line-height:1.5 }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:12px; border:1px solid var(--border);
+      background:#ffffff10; color:var(--text); font-weight:600; cursor:pointer; transition:transform .06s;
+    }
+    .btn:hover{ transform:translateY(-1px) }
+    .row{ display:flex; align-items:center; justify-content:space-between; gap:8px }
+    .ph{
+      width:100%; height:220px; border-radius:16px;
+      background:linear-gradient(180deg,#1b1b1b,#0f0f0f);
+      border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+      color:#6b7280; font-size:12px; letter-spacing:.06em;
+    }
 
-    .cart-toggle { position: relative }
-    .cart-count { position: absolute; top: -8px; right: -8px; background: #fff; color: #000; border-radius: 999px; font-size: 11px; padding: 2px 6px }
-    .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 92vw; background: #101010; border-left: 1px solid var(--border); transform: translateX(100%); transition: transform .2s ease; z-index: 30; display: flex; flex-direction: column }
-    .drawer.open { transform: translateX(0) }
-    .drawer header { padding: 16px; border-bottom: 1px solid var(--border) }
-    .drawer main { padding: 16px; overflow: auto; flex: 1 }
-    .drawer footer { padding: 16px; border-top: 1px solid var(--border) }
-    .cart-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); padding: 10px 0 }
-    .qty { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 10px }
-    .qty button { background: transparent; border: 0; color: var(--text); padding: 6px 10px; font-size: 16px; cursor: pointer }
-    .qty span { min-width: 24px; text-align: center }
-    .newsletter { margin-top: 36px; border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #111 }
-    input[type="email"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: #0b0b0b; color: #fff; margin: 8px 0 }
-    .small { font-size: 12px; color: var(--muted) }
+    .cart-toggle{ position:relative }
+    .cart-count{ position:absolute; top:-8px; right:-8px; background:#fff; color:#000; border-radius:999px; font-size:11px; padding:2px 6px }
+    .drawer{
+      position:fixed; top:0; right:0; height:100%; width:380px; max-width:92vw;
+      background:#101010; border-left:1px solid var(--border);
+      transform:translateX(100%); transition:transform .2s ease; z-index:30; display:flex; flex-direction:column;
+    }
+    .drawer.open{ transform:translateX(0) }
+    .drawer header{ padding:16px; border-bottom:1px solid var(--border) }
+    .drawer main{ padding:16px; overflow:auto; flex:1 }
+    .drawer footer{ padding:16px; border-top:1px solid var(--border) }
+    .cart-item{ display:grid; grid-template-columns:56px 1fr auto; gap:10px; align-items:center; border-bottom:1px solid var(--border); padding:10px 0 }
+    .qty{ display:inline-flex; align-items:center; border:1px solid var(--border); border-radius:10px }
+    .qty button{ background:transparent; border:0; color:var(--text); padding:6px 10px; font-size:16px; cursor:pointer }
+    .qty span{ min-width:24px; text-align:center }
+    .newsletter{ margin-top:36px; border:1px solid var(--border); border-radius:16px; padding:16px; background:#111 }
+    input[type="email"]{ width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0b0b0b; color:#fff; margin:8px 0 }
+    .small{ font-size:12px; color:var(--muted) }
   </style>
 </head>
 
-<body>
+<body class="ja-active">
   <header>
     <div class="brand">
       <h1 data-ja="POST XENO" data-en="POST XENO" data-ru="POST XENO">POST XENO</h1>
@@ -369,7 +368,7 @@
       cartCount.hidden = count === 0;
       if (!cartCount.hidden) cartCount.textContent = count;
 
-      setLanguage(currentLang); // refresh labels that have data-*
+      setLanguage(currentLang); // update any data-* in drawer labels
     }
 
     cartItemsEl.addEventListener('click', (e) => {
@@ -419,7 +418,7 @@
       }
     });
 
-    // --- Language toggle (JA default) ---
+    // --- Language toggle with exclusive body classes ---
     let currentLang = localStorage.getItem('lang') || 'ja';
     const langButtons = document.querySelectorAll('.lang-btn');
 
@@ -428,8 +427,11 @@
       localStorage.setItem('lang', currentLang);
       document.documentElement.lang = currentLang;
 
-      // RU spacing class on body
-      document.body.classList.toggle('ru-active', currentLang === 'ru');
+      // Exclusive body classes
+      document.body.classList.remove('ja-active','en-active','ru-active');
+      if (lang === 'ja') document.body.classList.add('ja-active');
+      if (lang === 'en') document.body.classList.add('en-active');
+      if (lang === 'ru') document.body.classList.add('ru-active');
 
       // Highlight active button
       langButtons.forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
@@ -447,14 +449,11 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      setLanguage(currentLang); // set initial language + RU spacing class
-    });
-
+    document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
     langButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         setLanguage(btn.dataset.lang);
-        renderCart(); // re-render to update item names inside drawer
+        renderCart(); // update item names in drawer
       });
     });
   </script>
@@ -478,7 +477,6 @@
       iframe.addEventListener('load', () => {
         if (!email.value) return; // ignore first load
         ok.style.display = 'block';
-        // localize success text to current language
         const lang = localStorage.getItem('lang') || 'ja';
         const txt = ok.getAttribute(`data-${lang}`);
         if (txt) ok.textContent = txt;

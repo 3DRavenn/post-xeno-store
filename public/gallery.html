@@ -92,6 +92,117 @@
       padding: 0 20px 40px 20px;
     }
 
+    /* Gallery grid — cards without external margins */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .gallery-card {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .gallery-carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #050505;
+    }
+
+    .gallery-image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      background: #00000088;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .gallery-arrow.left { left: 8px; }
+    .gallery-arrow.right { right: 8px; }
+
+    .gallery-arrow:hover {
+      background: #ffffff20;
+    }
+
+    /* Image modal (shared) */
+    .img-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .img-modal[hidden] {
+      display: none;
+    }
+
+    .img-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    .img-modal-inner {
+      position: relative;
+      max-width: min(1100px, 95vw);
+      max-height: 90vh;
+      z-index: 1;
+    }
+
+    .img-modal-inner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background:#050505;
+    }
+
+    .img-modal-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #000000dd;
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     @media (max-width: 768px) {
       header {
         flex-direction: row;
@@ -118,7 +229,92 @@
   </header>
 
   <main>
-    <!-- Gallery content will go here later -->
+    <section class="gallery-grid" aria-label="Gallery">
+      <!-- GALLERY CARD 1: MM01–MM04 carousel -->
+      <article class="gallery-card" data-id="mm-look-1">
+        <div class="gallery-carousel" data-gallery="mm-look-1">
+          <button class="gallery-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/MM01.jpg"
+            alt="POST XENO Look 1"
+            class="gallery-image">
+          <button class="gallery-arrow right" type="button" data-dir="next">›</button>
+        </div>
+      </article>
+
+      <!-- Future gallery-card blocks can be added here -->
+    </section>
+
+    <!-- Shared image modal -->
+    <div class="img-modal" id="imageModal" hidden>
+      <div class="img-modal-backdrop"></div>
+      <div class="img-modal-inner">
+        <img id="modalImage" src="" alt="">
+        <button type="button" class="img-modal-close">×</button>
+      </div>
+    </div>
   </main>
+
+  <script>
+    // Gallery carousel + shared modal
+    window.addEventListener('load', () => {
+      const gallerySets = {
+        'mm-look-1': [
+          '/images/MM01.jpg',
+          '/images/MM02.jpg',
+          '/images/MM03.jpg',
+          '/images/MM04.jpg'
+        ]
+      };
+
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      const closeBtn = modal.querySelector('.img-modal-close');
+      const backdrop = modal.querySelector('.img-modal-backdrop');
+
+      function openModal(src, alt) {
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+
+      Object.entries(gallerySets).forEach(([galleryId, images]) => {
+        const wrapper = document.querySelector(`.gallery-carousel[data-gallery="${galleryId}"]`);
+        if (!wrapper || !images || images.length === 0) return;
+
+        const imgEl = wrapper.querySelector('.gallery-image');
+        const prevBtn = wrapper.querySelector('.gallery-arrow.left');
+        const nextBtn = wrapper.querySelector('.gallery-arrow.right');
+
+        let currentIndex = 0;
+
+        function showImage(idx) {
+          const count = images.length;
+          currentIndex = (idx + count) % count;
+          imgEl.src = images[currentIndex];
+        }
+
+        showImage(0);
+
+        if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+        imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
+      });
+    });
+  </script>
 </body>
 </html>

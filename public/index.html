@@ -295,14 +295,23 @@
 
   <main class="wrap">
     <section class="grid" aria-label="Products">
-      <!-- PRODUCT 1 -->
+      <!-- PRODUCT 1 (BELT CHAIN WITH CAROUSEL) -->
       <article class="card"
         data-id="belt-chain"
         data-name-ja="POST XENO ベルトチェーンアクセサリー"
         data-name-en="POST XENO Belt Chain Accessory"
         data-name-ru="POST XENO аксессуар-цепочка для ремня"
         data-pricejpy="5000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
+
+        <div class="carousel" data-product="belt-chain">
+          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/BCP01.jpg"
+            alt="POST XENO Belt Chain Accessory"
+            class="carousel-image">
+          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
+        </div>
+
         <div class="title"
              data-ja="POST XENO ベルトチェーンアクセサリー"
              data-en="POST XENO Belt Chain Accessory"
@@ -455,7 +464,8 @@
     // --- Cart state ---
     const cart = [];
     const productThumbs = {
-      "fur-jacket": "/images/JP01.jpg"
+      "fur-jacket": "/images/JP01.jpg",
+      "belt-chain": "/images/BCP01.jpg"
     };
     const drawer = document.getElementById('drawer');
     const cartItemsEl = document.getElementById('cartItems');
@@ -618,35 +628,23 @@
       });
     });
 
-    // --- Jacket carousel + image modal (fur-jacket only) ---
+    // --- Product carousels + shared image modal (fur-jacket & belt-chain) ---
     window.addEventListener('load', () => {
-      const jacketImages = [
-        '/images/JP01.jpg',
-        '/images/JP02.jpg',
-        '/images/JP03.jpg'
-      ];
+      const productCarousels = {
+        'fur-jacket': [
+          '/images/JP01.jpg',
+          '/images/JP02.jpg',
+          '/images/JP03.jpg'
+        ],
+        'belt-chain': [
+          '/images/BCP01.jpg',
+          '/images/BCP02.jpg',
+          '/images/BCP03.jpg',
+          '/images/BCP04.jpg'
+        ]
+      };
 
-      const carousel = document.querySelector('.carousel[data-product="fur-jacket"]');
-      if (!carousel) return;
-
-      const img = carousel.querySelector('.carousel-image');
-      const prevBtn = carousel.querySelector('.carousel-arrow.left');
-      const nextBtn = carousel.querySelector('.carousel-arrow.right');
-
-      let currentIndex = 0;
-
-      function showImage(idx) {
-        const count = jacketImages.length;
-        currentIndex = (idx + count) % count;
-        img.src = jacketImages[currentIndex];
-      }
-
-      showImage(0);
-
-      if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-      if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
-
-      // Modal
+      // Modal (shared by all product images)
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.img-modal-close');
@@ -665,12 +663,36 @@
         document.body.style.overflow = '';
       }
 
-      img.addEventListener('click', () => openModal(img.src, img.alt));
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
       if (backdrop) backdrop.addEventListener('click', closeModal);
-
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+
+      // Initialize each product carousel
+      Object.entries(productCarousels).forEach(([productId, images]) => {
+        const carousel = document.querySelector(`.carousel[data-product="${productId}"]`);
+        if (!carousel || !images || images.length === 0) return;
+
+        const imgEl = carousel.querySelector('.carousel-image');
+        const prevBtn = carousel.querySelector('.carousel-arrow.left');
+        const nextBtn = carousel.querySelector('.carousel-arrow.right');
+        if (!imgEl) return;
+
+        let currentIndex = 0;
+
+        function showImage(idx) {
+          const count = images.length;
+          currentIndex = (idx + count) % count;
+          imgEl.src = images[currentIndex];
+        }
+
+        showImage(0);
+
+        if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+        imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
       });
     });
   </script>

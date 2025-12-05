@@ -286,10 +286,7 @@
         min-width: 80px;
       }
     }
-  
-    .title { text-align:center; margin-bottom:6px; }
-
-</style>
+  </style>
 </head>
 
 <body class="ja-active">
@@ -304,7 +301,7 @@
         <span data-ja="お問い合わせ" data-en="Contact" data-ru="Связаться">お問い合わせ</span>
       </a>
       <a class="chip" href="https://www.instagram.com/post_xeno" target="_blank" rel="noopener noreferrer">
-        <span data-ja="ソーシャル" data-en="Socials" data-ru="Соцсети">ソーシャル</span>
+        <span data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</span>
       </a>
       <button id="openCart" class="chip cart-toggle">
         <span data-ja="カート" data-en="Cart" data-ru="Корзина">カート</span>
@@ -499,7 +496,39 @@
   </aside>
 
   <!-- APP SCRIPT -->
-  <script>
+  
+<script>
+  (function preloadCarouselImages() {
+    const sets = {
+      'fur-jacket': [
+        '/images/JP01.jpg',
+        '/images/JP02.jpg',
+        '/images/JP03.jpg'
+      ],
+      'belt-chain': [
+        '/images/BCP01.jpg',
+        '/images/BCP02.jpg',
+        '/images/BCP03.jpg',
+        '/images/BCP04.jpg'
+      ],
+      'mm-look-1': [
+        '/images/MM01.jpg',
+        '/images/MM02.jpg',
+        '/images/MM03.jpg',
+        '/images/MM04.jpg'
+      ],
+      'fm-look-1': [
+        '/images/FM01.jpg',
+        '/images/FM02.jpg',
+        '/images/FM03.jpg',
+        '/images/FM04.jpg'
+      ]
+    };
+    Object.values(sets).forEach(arr => arr.forEach(src => { const i=new Image(); i.src=src; }));
+  })();
+</script>
+
+<script>
     // --- Cart state ---
     const cart = [];
     const productThumbs = {

@@ -120,6 +120,19 @@
     }
     .btn:hover { transform: translateY(-1px) }
     .row { display: flex; align-items: center; justify-content: space-between; gap: 8px }
+/* Layout C: price left, stacked buttons right */
+.row-actions {
+  align-items: flex-start;
+}
+.row-actions .price {
+  flex: 0 0 auto;
+}
+.row-actions .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
     .ph {
       width: 100%; height: 220px; border-radius: 16px;
       background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
@@ -316,10 +329,12 @@
              data-ja="POST XENO ベルトチェーンアクセサリー"
              data-en="POST XENO Belt Chain Accessory"
              data-ru="POST XENO аксессуар-цепочка для ремня">POST XENO ベルトチェーンアクセサリー</div>
-        <div class="row">
+        <div class="row row-actions">
           <div class="price" data-ja="¥5,000" data-en="¥5,000" data-ru="¥5,000">¥5,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-          <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <div class="actions">
+            <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          </div>
         </div>
       </article>
 
@@ -344,10 +359,12 @@
              data-ja="POST XENO ファージャケット"
              data-en="POST XENO Fur Jacket"
              data-ru="POST XENO меховая куртка">POST XENO ファージャケット</div>
-        <div class="row">
+        <div class="row row-actions">
           <div class="price" data-ja="¥30,000" data-en="¥30,000" data-ru="¥30,000">¥30,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-          <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <div class="actions">
+            <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          </div>
         </div>
       </article>
 
@@ -363,10 +380,12 @@
              data-ja="POST XENO フォールンエンジェルTシャツ（ブラック）"
              data-en="POST XENO Fallen Angel Tee (Black)"
              data-ru="POST XENO футболка Fallen Angel (чёрная)">POST XENO フォールンエンジェルTシャツ（ブラック）</div>
-        <div class="row">
+        <div class="row row-actions">
           <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-          <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <div class="actions">
+            <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          </div>
         </div>
       </article>
 
@@ -382,10 +401,12 @@
              data-ja="POST XENO フォールンエンジェルTシャツ（グレー）"
              data-en="POST XENO Fallen Angel Tee (Grey)"
              data-ru="POST XENO футболка Fallen Angel (серая)">POST XENO フォールンエンジェルTシャツ（グレー）</div>
-        <div class="row">
+        <div class="row row-actions">
           <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-          <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <div class="actions">
+            <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            <a class="btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          </div>
         </div>
       </article>
     </section>

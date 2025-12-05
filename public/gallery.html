@@ -3,20 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>POST XENO — Store</title>
-  <meta name="description" content="POST XENO store." />
+  <title>POST XENO — Gallery</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
-
-  <!-- Fonts (host these in /public/fonts) -->
+  <!-- Fonts (same as index) -->
   <link rel="preload" href="/fonts/redseven.ttf?v=2" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/fonts/MakinasJP.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/px-cyrhead.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
-    /* Red Seven — logo font */
     @font-face {
       font-family: "Red Seven";
       src: url("/fonts/redseven.ttf?v=2") format("truetype");
@@ -24,7 +17,6 @@
       font-weight: 400;
       font-style: normal;
     }
-    /* MakinasJP — for Japanese where explicitly applied */
     @font-face {
       font-family: "MakinasJP";
       src: url("/fonts/MakinasJP.woff2") format("woff2");
@@ -32,470 +24,252 @@
       font-weight: 400;
       font-style: normal;
     }
-    /* PX-CyrHead — heading-friendly Cyrillic (put your WOFF2 at this path) */
-    @font-face {
-      font-family: "PX-CyrHead";
-      src: url("/fonts/px-cyrhead.woff2") format("woff2");
-      font-display: swap;
-      font-weight: 600;
-      font-style: normal;
-    }
 
-    :root { --bg:#0a0a0a; --card:#141414; --muted:#9aa0a6; --text:#e8eaed; --border:#222; --accent:#fff; }
-    * { box-sizing: border-box }
+    :root { --bg:#0a0a0a; --muted:#9aa0a6; --text:#e8eaed; --border:#222; }
+
+    * { box-sizing:border-box; }
+
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+        "Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
     }
-    a { color: inherit; text-decoration: none }
-    header, footer { max-width: 1100px; margin: 0 auto; padding: 20px }
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px }
 
-    /* Brand block */
-    .brand {
-      display: inline-flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
+
+    .brand {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
     .brand h1 {
-      margin: 0; font-size: 36px; letter-spacing: .05em;
+      margin: 0;
+      font-size: 36px;
+      letter-spacing: .05em;
       font-family: "Red Seven", sans-serif;
     }
+
     .brand-sub {
       font-family: "MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif!important;
-      font-size: 19px; color: var(--muted); line-height: 1; letter-spacing: .03em;
+      font-size: 19px;
+      color: var(--muted);
+      line-height: 1;
+      letter-spacing: .03em;
     }
 
-    /* Nav + chips */
-    nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
-    .chip {
-      padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px;
-      color: var(--muted); font-size: 12px; background: transparent; cursor: pointer; transition: all .2s;
+    .back-btn {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff10;
+      color: var(--text);
+      font-size: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* Language buttons */
-    .lang-switch { display: flex; gap: 8px; }
-    .lang-btn.active { background: #fff; color: #000; border-color: #fff; font-weight: 700; }
-
-    .wrap { max-width: 1100px; padding: 20px; margin: 0 auto }
-    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px }
-    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr 1fr 1fr } }
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr } }
-    @media (max-width: 640px) { .grid { grid-template-columns: 1fr } }
-
-    .card {
-      background: linear-gradient(180deg, #151515, #101010);
-      border: 1px solid var(--border); border-radius: 20px; padding: 16px;
-      display: flex; flex-direction: column; gap: 14px;
-      justify-content: space-between;
+    .back-btn span {
+      font-size: 12px;
     }
 
-    /* Product names, cart item names, newsletter header */
-    .title,
-    .drawer .cart-item-title,
-    .newsletter h3 {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: 0em; word-spacing: 0em; line-height: 1.2; font-weight: 600;
-    }
-    /* Use Makinas for JA selection */
-    body.ja-active .title,
-    body.ja-active .drawer .cart-item-title,
-    body.ja-active .newsletter h3 {
-      font-family: "MakinasJP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif !important;
-      letter-spacing: 0em; word-spacing: 0em;
-    }
-    /* Use PX-CyrHead for RU selection */
-    body.ru-active .title,
-    body.ru-active .drawer .cart-item-title,
-    body.ru-active .newsletter h3 {
-      font-family: "PX-CyrHead","Noto Sans","Roboto","Helvetica Neue",Arial,sans-serif !important;
-      letter-spacing: 0em; word-spacing: 0em;
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 40px 20px;
     }
 
-    .price { color: var(--accent); font-weight: 700; font-size: 18px }
-    .desc { color: var(--muted); font-size: 13px; line-height: 1.5 }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
-      background: #ffffff10; color: var(--text); font-weight: 600; cursor: pointer; transition: transform .06s;
-      font-size: 13px; line-height: 1.2; text-decoration: none;
-    }
-    .btn:hover { transform: translateY(-1px) }
-    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px }
-    .price-block { text-align:center; font-weight:700; margin-top:4px; margin-bottom:8px; }
-    .product-buttons { display:flex; flex-direction:column; gap:8px; width:100%; }
-    .product-buttons .btn { width:100%; justify-content:center; }
-
-/* Layout C: price left, stacked buttons right */
-.row-actions {
-  align-items: flex-start;
-}
-.row-actions .price {
-  flex: 0 0 auto;
-}
-.row-actions .actions {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-end;
-}
-.row-actions .actions .btn {
-  width: 150px;              /* same width for Add + Gallery */
-  min-height: 38px;          /* same height baseline */
-  justify-content: center;
-}
-    .ph {
-      width: 100%; height: auto; border-radius: 16px;
-      background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
-      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
-      color: #6b7280; font-size: 12px; letter-spacing: .06em;
+    /* Gallery grid — cards without external margins */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
     }
 
-    /* ✅ Jacket carousel (only for fur-jacket card) */
-    .carousel {
+    .gallery-card {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .gallery-carousel {
       position: relative;
       width: 100%;
-      height: auto;           /* square area that adapts to card width */
-      border-radius: 16px;
       overflow: hidden;
+      border-radius: 20px;
       border: 1px solid var(--border);
-      background: #000;
+      background: #050505;
     }
 
-    .carousel-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;           /* show full jacket without cropping */
+    .gallery-image {
       display: block;
-      cursor: pointer;
-      background: #000;
+      width: 100%;
+      height: auto;
     }
 
-    .carousel-arrow {
+    .gallery-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.55);
-      border: 1px solid #444;
-      color: #fff;
-      font-size: 20px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      background: #00000088;
+      color: var(--text);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      z-index: 10;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0;
     }
-    .carousel-arrow.left { left: 10px; }
-    .carousel-arrow.right { right: 10px; }
-    .carousel-arrow:hover { background: rgba(0,0,0,0.75); }
 
-    /* ✅ Fullscreen image modal */
+    .gallery-arrow.left { left: 8px; }
+    .gallery-arrow.right { right: 8px; }
+
+    .gallery-arrow:hover {
+      background: #ffffff20;
+    }
+
+    /* Image modal (shared) */
     .img-modal {
       position: fixed;
       inset: 0;
-      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 50;
     }
-    .img-modal[hidden] { display: none; }
+
+    .img-modal[hidden] {
+      display: none;
+    }
 
     .img-modal-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(2px);
     }
+
     .img-modal-inner {
       position: relative;
-      max-width: 90vw;
+      max-width: min(1100px, 95vw);
       max-height: 90vh;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      z-index: 1;
     }
+
     .img-modal-inner img {
       display: block;
-      max-width: 100%;
+      width: 100%;
+      height: auto;
       max-height: 90vh;
       object-fit: contain;
-      background: #000;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background:#050505;
     }
+
     .img-modal-close {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: -14px;
+      right: -14px;
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      border: 1px solid #444;
-      background: rgba(0,0,0,0.7);
-      color: #e5e7eb;
-      font-size: 18px;
+      border: 1px solid var(--border);
+      background: #000000dd;
+      color: #fff;
       cursor: pointer;
-    }
-    .img-modal-close:hover {
-      background: rgba(0,0,0,0.9);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .cart-toggle { position: relative }
-    .cart-count { position: absolute; top: -8px; right: -8px; background: #fff; color: #000; border-radius: 999px; font-size: 11px; padding: 2px 6px }
-    .drawer {
-      position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 92vw;
-      background: #101010; border-left: 1px solid var(--border);
-      transform: translateX(100%); transition: transform .2s ease; z-index: 30; display: flex; flex-direction: column;
-    }
-    .drawer.open { transform: translateX(0) }
-    .drawer header { padding: 16px; border-bottom: 1px solid var(--border) }
-    .drawer main { padding: 16px; overflow: auto; flex: 1 }
-    .drawer footer { padding: 16px; border-top: 1px solid var(--border) }
-    .cart-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); padding: 10px 0 }
-    .qty { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 10px }
-    .qty button { background: transparent; border: 0; color: var(--text); padding: 6px 10px; font-size: 16px; cursor: pointer }
-    .qty span { min-width: 24px; text-align: center }
-    .newsletter { margin-top: 36px; border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #111 }
-    input[type="email"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: #0b0b0b; color: #fff; margin: 8px 0 }
-    .small { font-size: 12px; color: var(--muted) }
-
-    /* ✅ Responsive nav layout for mobile */
     @media (max-width: 768px) {
-      header { flex-direction: column; align-items: stretch; gap: 14px; }
-      .brand { align-items: center; }
-      nav {
-        flex-direction: column;
+      header {
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
+        justify-content: space-between;
       }
-      .chip {
-        width: 100%;
-        max-width: 320px;
-        text-align: center;
-      }
-      .lang-switch {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-      }
-      .lang-btn {
-        flex: 1;
-        min-width: 80px;
+      .brand {
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 
-<body class="ja-active">
+<body>
   <header>
     <div class="brand">
-      <h1 data-ja="POST XENO" data-en="POST XENO" data-ru="POST XENO">POST XENO</h1>
+      <h1>POST XENO</h1>
       <div class="brand-sub">ポストゼノ</div>
     </div>
 
-    <nav>
-      <a class="chip" href="mailto:postxenohelp@gmail.com">
-        <span data-ja="お問い合わせ" data-en="Contact" data-ru="Связаться">お問い合わせ</span>
-      </a>
-      <a class="chip" href="https://www.instagram.com/post_xeno" target="_blank" rel="noopener noreferrer">
-        <span data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</span>
-      </a>
-      <button id="openCart" class="chip cart-toggle">
-        <span data-ja="カート" data-en="Cart" data-ru="Корзина">カート</span>
-        <span id="cartCount" class="cart-count" hidden>0</span>
-      </button>
-
-      <!-- Language buttons -->
-      <div class="lang-switch">
-        <button class="chip lang-btn" data-lang="ja">日本語</button>
-        <button class="chip lang-btn" data-lang="en">English</button>
-        <button class="chip lang-btn" data-lang="ru">Русский</button>
-      </div>
-    </nav>
+    <a href="/" class="back-btn">
+      <span
+        data-ja="← ストアに戻る"
+        data-en="← Back to Store"
+        data-ru="← Назад в магазин">← ストアに戻る</span>
+    </a>
   </header>
 
-  <main class="wrap">
-    <section class="grid" aria-label="Products">
-      <!-- PRODUCT 1 (BELT CHAIN WITH CAROUSEL) -->
-      <article class="card"
-        data-id="belt-chain"
-        data-name-ja="POST XENO ベルトチェーンアクセサリー"
-        data-name-en="POST XENO Belt Chain Accessory"
-        data-name-ru="POST XENO аксессуар-цепочка для ремня"
-        data-pricejpy="5000">
-
-        <div class="carousel" data-product="belt-chain">
-          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+  <main>
+    <section class="gallery-grid" aria-label="Gallery">
+      <!-- GALLERY CARD 1: MM01–MM04 carousel -->
+      <article class="gallery-card" data-id="mm-look-1">
+        <div class="gallery-carousel" data-gallery="mm-look-1">
+          <button class="gallery-arrow left" type="button" data-dir="prev">‹</button>
           <img
-            src="/images/BCP01.jpg"
-            alt="POST XENO Belt Chain Accessory"
-            class="carousel-image" style="max-height:none;">
-          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
-        </div>
-
-        <div class="title"
-             data-ja="POST XENO ベルトチェーンアクセサリー"
-             data-en="POST XENO Belt Chain Accessory"
-             data-ru="POST XENO аксессуар-цепочка для ремня">POST XENO ベルトチェーンアクセサリー</div>
-        <div class="price-block">
-          <div class="price" data-ja="¥5,000" data-en="¥5,000" data-ru="¥5,000">¥5,000</div>
-        </div>
-        <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            src="/images/MM01.jpg"
+            alt="POST XENO Look 1"
+            class="gallery-image">
+          <button class="gallery-arrow right" type="button" data-dir="next">›</button>
         </div>
       </article>
 
-      <!-- PRODUCT 2 (FUR JACKET WITH CAROUSEL) -->
-      <article class="card"
-        data-id="fur-jacket"
-        data-name-ja="POST XENO ファージャケット"
-        data-name-en="POST XENO Fur Jacket"
-        data-name-ru="POST XENO меховая куртка"
-        data-pricejpy="30000">
-
-        <div class="carousel" data-product="fur-jacket">
-          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+      <!-- GALLERY CARD 2: FM01–FM04 carousel -->
+      <article class="gallery-card" data-id="fm-look-1">
+        <div class="gallery-carousel" data-gallery="fm-look-1">
+          <button class="gallery-arrow left" type="button" data-dir="prev">‹</button>
           <img
-            src="/images/JP01.jpg"
-            alt="POST XENO Fur Jacket"
-            class="carousel-image" style="max-height:none;">
-          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
-        </div>
-
-        <div class="title"
-             data-ja="POST XENO ファージャケット"
-             data-en="POST XENO Fur Jacket"
-             data-ru="POST XENO меховая куртка">POST XENO ファージャケット</div>
-        <div class="price-block">
-          <div class="price" data-ja="¥30,000" data-en="¥30,000" data-ru="¥30,000">¥30,000</div>
-        </div>
-        <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+            src="/images/FM01.jpg"
+            alt="POST XENO Look 2"
+            class="gallery-image">
+          <button class="gallery-arrow right" type="button" data-dir="next">›</button>
         </div>
       </article>
 
-      <!-- PRODUCT 3 -->
-      <article class="card"
-        data-id="fallen-angel-tee-black"
-        data-name-ja="POST XENO フォールンエンジェルTシャツ（ブラック）"
-        data-name-en="POST XENO Fallen Angel Tee (Black)"
-        data-name-ru="POST XENO футболка Fallen Angel (чёрная)"
-        data-pricejpy="8000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
-        <div class="title"
-             data-ja="POST XENO フォールンエンジェルTシャツ（ブラック）"
-             data-en="POST XENO Fallen Angel Tee (Black)"
-             data-ru="POST XENO футболка Fallen Angel (чёрная)">POST XENO フォールンエンジェルTシャツ（ブラック）</div>
-        <div class="price-block">
-          <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
-        </div>
-        <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-        </div>
-      </article>
-
-      <!-- PRODUCT 4 -->
-      <article class="card"
-        data-id="fallen-angel-tee-grey"
-        data-name-ja="POST XENO フォールンエンジェルTシャツ（グレー）"
-        data-name-en="POST XENO Fallen Angel Tee (Grey)"
-        data-name-ru="POST XENO футболка Fallen Angel (серая)"
-        data-pricejpy="8000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
-        <div class="title"
-             data-ja="POST XENO フォールンエンジェルTシャツ（グレー）"
-             data-en="POST XENO Fallen Angel Tee (Grey)"
-             data-ru="POST XENO футболка Fallen Angel (серая)">POST XENO フォールンエンジェルTシャツ（グレー）</div>
-        <div class="price-block">
-          <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
-        </div>
-        <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-        </div>
-      </article>
+      <!-- Future gallery-card blocks can be added here -->
     </section>
 
-    <!-- NEWSLETTER -->
-    <section class="newsletter">
-      <h3 style="margin:0 0 10px 0; font-weight:600;"
-          data-ja="新作・限定リリース・特別オファーをいち早く受け取る"
-          data-en="Sign up for early access to future drops, limited releases, and exclusive offers."
-          data-ru="Подпишись, чтобы получить ранний доступ к будущим дропам, лимитированным релизам и эксклюзивным предложениям.">
-        新作・限定リリース・特別オファーをいち早く受け取る
-      </h3>
-
-      <form
-        action="https://8c6dd4be.sibforms.com/serve/MUIFAEajzsfThvkxfdIpnyiztoj6aDKdQAYwexyWW2a9-KUOnpzyXf_Ml23SMCMfNzXHim_jhJKXwBMe60LkMcBWBGffEpoziXjnYG_CFGXbrI28fP9GikBf9sfIWcj8e-MHXM6YnUwhXOodNTY7aer4BOUPOLWBD879NvtEGvbwclYoq4Stv9_cApLa7UFnUGL1YEFiWUVaJhE5ow=="
-        method="POST"
-        target="sib-target"
-        style="margin-top:8px;">
-        <label for="email" style="font-size:14px; color:#aaa;"
-               data-ja="メールアドレス"
-               data-en="Email address"
-               data-ru="Электронная почта">メールアドレス</label>
-        <input type="email" name="EMAIL" id="email" placeholder="" required />
-        <button class="btn" type="submit" style="width:100%; margin-top:8px;"
-                data-ja="登録する"
-                data-en="Join the List"
-                data-ru="Подписаться">登録する</button>
-      </form>
-
-      <!-- Hidden iframe so the page doesn't navigate -->
-      <iframe name="sib-target" style="display:none;"></iframe>
-
-      <!-- Success message -->
-      <p id="newsletter-success" style="display:none; color:#4ade80; margin-top:10px;"
-         data-ja="✅ 登録ありがとうございます！"
-         data-en="✅ Thank you for subscribing!"
-         data-ru="✅ Спасибо за подписку!">✅ 登録ありがとうございます！</p>
-    </section>
+    <!-- Shared image modal -->
+    <div class="img-modal" id="imageModal" hidden>
+      <div class="img-modal-backdrop"></div>
+      <div class="img-modal-inner">
+        <img id="modalImage" src="" alt="">
+        <button type="button" class="img-modal-close">×</button>
+      </div>
+    </div>
   </main>
 
-  <!-- IMAGE MODAL (for jacket fullscreen view) -->
-  <div id="imageModal" class="img-modal" hidden>
-    <div class="img-modal-backdrop"></div>
-    <div class="img-modal-inner">
-      <button type="button" class="img-modal-close">×</button>
-      <img id="modalImage" src="" alt="">
-    </div>
-  </div>
-
-  <!-- CART DRAWER -->
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <header style="display:flex;align-items:center;justify-content:space-between;">
-      <strong data-ja="カート" data-en="Cart" data-ru="Корзина">カート</strong>
-      <button id="closeCart" style="background:none;border:none;color:#aaa;font-size:20px;cursor:pointer;">×</button>
-    </header>
-    <main id="cartItems"></main>
-    <footer>
-      <div class="row" style="margin-bottom:10px;">
-        <span class="small"
-              data-ja="小計（概算）："
-              data-en="Subtotal (approx):"
-              data-ru="Итого (примерно):">小計（概算）：</span>
-        <strong id="subtotal">¥0</strong>
-      </div>
-      <button id="checkout" class="btn" style="width:100%;"
-              data-ja="Stripeでチェックアウト"
-              data-en="Checkout with Stripe"
-              data-ru="Оплатить через Stripe">Stripeでチェックアウト</button>
-      <div class="small" style="margin-top:8px;"
-           data-ja="送料・税金はチェックアウト時に計算されます。"
-           data-en="Shipping & taxes (if any) calculated at checkout."
-           data-ru="Доставка и налоги (если есть) рассчитываются при оформлении заказа.">
-        送料・税金はチェックアウト時に計算されます。
-      </div>
-    </footer>
-  </aside>
-
-  <!-- APP SCRIPT -->
   
 <script>
   (function preloadCarouselImages() {
@@ -529,190 +303,46 @@
 </script>
 
 <script>
-    // --- Cart state ---
-    const cart = [];
-    const productThumbs = {
-      "fur-jacket": "/images/JP01.jpg",
-      "belt-chain": "/images/BCP01.jpg"
-    };
-    const drawer = document.getElementById('drawer');
-    const cartItemsEl = document.getElementById('cartItems');
-    const subtotalEl = document.getElementById('subtotal');
-    const cartCount = document.getElementById('cartCount');
-
-    function openCart(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); renderCart(); }
-    function closeCart(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
-    document.getElementById('openCart').addEventListener('click', openCart);
-    document.getElementById('closeCart').addEventListener('click', closeCart);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
-
-    // Add to cart
-    document.querySelectorAll('.card .add').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const card = e.target.closest('.card');
-        const id = card.dataset.id;
-        const nameJa = card.dataset.nameJa;
-        const nameEn = card.dataset.nameEn;
-        const nameRu = card.dataset.nameRu;
-        const priceJpy = parseInt(card.dataset.pricejpy, 10);
-
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.qty += 1;
-        else cart.push({ id, nameJa, nameEn, nameRu, qty: 1, priceJpy });
-
-        openCart();
-        renderCart();
-      });
-    });
-
-    function displayNameFor(item){
-      if (currentLang === 'ru') return item.nameRu || item.nameEn || item.nameJa || '';
-      if (currentLang === 'en') return item.nameEn || item.nameJa || item.nameRu || '';
-      return item.nameJa || item.nameEn || item.nameRu || '';
-    }
-
-    function renderCart(){
-      cartItemsEl.innerHTML = '';
-      let subtotal = 0;
-
-      cart.forEach(item => {
-        subtotal += item.priceJpy * item.qty;
-        const row = document.createElement('div');
-        row.className = 'cart-item';
-        row.innerHTML = `
-          <div>
-            <img src="${productThumbs[item.id] || '/images/JP01.jpg'}"
-                 alt=""
-                 style="width:56px;height:56px;object-fit: contain;border-radius:10px;border:1px solid #222" />
-          </div>
-          <div>
-            <div class="cart-item-title" style="font-weight:600">${displayNameFor(item)}</div>
-            <div class="small">¥${item.priceJpy.toLocaleString()} × ${item.qty}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
-            <div class="qty">
-              <button class="qty-btn" data-action="dec" data-key="${item.id}">−</button>
-              <span>${item.qty}</span>
-              <button class="qty-btn" data-action="inc" data-key="${item.id}">＋</button>
-            </div>
-            <button class="small remove-btn" data-action="remove" data-key="${item.id}"
-                    style="background:transparent;border:0;color:#bbb;cursor:pointer"
-                    data-ja="削除" data-en="Remove" data-ru="Удалить">削除</button>
-          </div>`;
-        cartItemsEl.appendChild(row);
-      });
-
-      subtotalEl.textContent = '¥' + subtotal.toLocaleString();
-      const count = cart.reduce((a,b)=>a+b.qty,0);
-      cartCount.hidden = count === 0;
-      if (!cartCount.hidden) cartCount.textContent = count;
-
-      setLanguage(currentLang); // update any data-* in drawer labels
-    }
-
-    cartItemsEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-action]');
-      if (!btn) return;
-      const key = btn.dataset.key;
-      const action = btn.dataset.action;
-      const item = cart.find(i => i.id === key);
-      if (!item) return;
-
-      if (action === 'inc') item.qty += 1;
-      if (action === 'dec') item.qty = Math.max(1, item.qty - 1);
-      if (action === 'remove') cart.splice(cart.findIndex(i => i.id === key), 1);
-      renderCart();
-    });
-
-    document.getElementById('checkout').addEventListener('click', async () => {
-      if (cart.length === 0) {
-        alert(currentLang === 'ja' ? 'カートが空です。'
-             : currentLang === 'ru' ? 'Корзина пуста.' : 'Cart is empty.');
-        return;
-      }
-      const items = cart.map(i => ({ id: i.id, quantity: i.qty }));
-      try {
-        const res = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items })
-        });
-        const data = await res.json();
-        if (res.ok && data.url) {
-          window.location = data.url;
-        } else {
-          const msg = currentLang === 'ja'
-            ? `チェックアウトに失敗しました: ${data?.error || '不明なエラー'}`
-            : currentLang === 'ru'
-              ? `Ошибка оформления: ${data?.error || 'Неизвестная ошибка'}`
-              : `Checkout failed: ${data?.error || 'Unknown error'}`;
-          alert(msg);
-        }
-      } catch (err) {
-        alert(currentLang === 'ja'
-          ? 'ネットワークエラーです。'
-          : currentLang === 'ru'
-            ? 'Сетевая ошибка.'
-            : 'Network error.');
-      }
-    });
-
-    // --- Language toggle with exclusive body classes ---
-    let currentLang = localStorage.getItem('lang') || 'ja';
-    const langButtons = document.querySelectorAll('.lang-btn');
-
-    function setLanguage(lang){
-      currentLang = lang;
-      localStorage.setItem('lang', currentLang);
+    // Sync language with index using localStorage 'lang'
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'ja';
       document.documentElement.lang = currentLang;
 
-      // Exclusive body classes
-      document.body.classList.remove('ja-active','en-active','ru-active');
-      if (lang === 'ja') document.body.classList.add('ja-active');
-      if (lang === 'en') document.body.classList.add('en-active');
-      if (lang === 'ru') document.body.classList.add('ru-active');
+      function applyLang(lang) {
+        document.querySelectorAll('[data-ja],[data-en],[data-ru]').forEach(function(el) {
+          var ja = el.getAttribute('data-ja');
+          var en = el.getAttribute('data-en');
+          var ru = el.getAttribute('data-ru');
+          var next = null;
+          if (lang === 'ru') next = ru || en || ja;
+          else if (lang === 'en') next = en || ja || ru;
+          else next = ja || en || ru;
+          if (next !== null) el.textContent = next;
+        });
+      }
 
-      // Highlight active button
-      langButtons.forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+      applyLang(currentLang);
+    })();
+  </script>
 
-      // Swap copy everywhere
-      document.querySelectorAll('[data-ja], [data-en], [data-ru]').forEach(el => {
-        const ru = el.getAttribute('data-ru');
-        const en = el.getAttribute('data-en');
-        const ja = el.getAttribute('data-ja');
-        let next = null;
-        if (currentLang === 'ru') next = ru || en || ja;
-        else if (currentLang === 'en') next = en || ja || ru;
-        else next = ja || en || ru;
-        if (next != null) el.textContent = next;
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
-    langButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        setLanguage(btn.dataset.lang);
-        renderCart(); // update item names in drawer
-      });
-    });
-
-    // --- Product carousels + shared image modal (fur-jacket & belt-chain) ---
+  <script>
+    // Gallery carousel + shared modal
     window.addEventListener('load', () => {
-      const productCarousels = {
-        'fur-jacket': [
-          '/images/JP01.jpg',
-          '/images/JP02.jpg',
-          '/images/JP03.jpg'
+      const gallerySets = {
+        'mm-look-1': [
+          '/images/MM01.jpg',
+          '/images/MM02.jpg',
+          '/images/MM03.jpg',
+          '/images/MM04.jpg'
         ],
-        'belt-chain': [
-          '/images/BCP01.jpg',
-          '/images/BCP02.jpg',
-          '/images/BCP03.jpg',
-          '/images/BCP04.jpg'
+        'fm-look-1': [
+          '/images/FM01.jpg',
+          '/images/FM02.jpg',
+          '/images/FM03.jpg',
+          '/images/FM04.jpg'
         ]
       };
 
-      // Modal (shared by all product images)
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.img-modal-close');
@@ -737,15 +367,13 @@
         if (e.key === 'Escape' && !modal.hidden) closeModal();
       });
 
-      // Initialize each product carousel
-      Object.entries(productCarousels).forEach(([productId, images]) => {
-        const carousel = document.querySelector(`.carousel[data-product="${productId}"]`);
-        if (!carousel || !images || images.length === 0) return;
+      Object.entries(gallerySets).forEach(([galleryId, images]) => {
+        const wrapper = document.querySelector(`.gallery-carousel[data-gallery="${galleryId}"]`);
+        if (!wrapper || !images || images.length === 0) return;
 
-        const imgEl = carousel.querySelector('.carousel-image');
-        const prevBtn = carousel.querySelector('.carousel-arrow.left');
-        const nextBtn = carousel.querySelector('.carousel-arrow.right');
-        if (!imgEl) return;
+        const imgEl = wrapper.querySelector('.gallery-image');
+        const prevBtn = wrapper.querySelector('.gallery-arrow.left');
+        const nextBtn = wrapper.querySelector('.gallery-arrow.right');
 
         let currentIndex = 0;
 
@@ -764,37 +392,5 @@
       });
     });
   </script>
-
-  <footer style="text-align:center; padding:20px; font-size:12px; color:#777;">
-    © 2025 POST XENO —
-    <a href="./legal.html" style="color:#777; text-decoration:none;"
-       data-ja="法的情報 / Legal Information"
-       data-en="Legal Information / 法的情報"
-       data-ru="Правовая информация / Legal Information">法的情報 / Legal Information</a>
-  </footer>
-
-  <!-- Newsletter success logic -->
-  <script>
-    (function(){
-      const email = document.getElementById('email');
-      const ok = document.getElementById('newsletter-success');
-      const iframe = document.querySelector('iframe[name="sib-target"]');
-      if (!email || !ok || !iframe) return;
-
-      iframe.addEventListener('load', () => {
-        if (!email.value) return; // ignore initial load
-        ok.style.display = 'block';
-        const lang = localStorage.getItem('lang') || 'ja';
-        const txt = ok.getAttribute(`data-${lang}`);
-        if (txt) ok.textContent = txt;
-        email.value = '';
-        setTimeout(() => ok.style.display = 'none', 4000);
-      });
-    })();
-  </script>
-
-  <!-- Vercel Analytics -->
-  <script defer src="/_vercel/insights/script.js"></script>
-  
 </body>
 </html>

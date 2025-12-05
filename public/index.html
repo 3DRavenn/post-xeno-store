@@ -454,6 +454,9 @@
   <script>
     // --- Cart state ---
     const cart = [];
+    const productThumbs = {
+      "fur-jacket": "/images/JP01.jpg"
+    };
     const drawer = document.getElementById('drawer');
     const cartItemsEl = document.getElementById('cartItems');
     const subtotalEl = document.getElementById('subtotal');
@@ -499,7 +502,11 @@
         const row = document.createElement('div');
         row.className = 'cart-item';
         row.innerHTML = `
-          <div style="width:56px;height:56px;border-radius:10px;background:#1b1b1b;border:1px solid #222"></div>
+          <div>
+            <img src="${productThumbs[item.id] || '/images/JP01.jpg'}"
+                 alt=""
+                 style="width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid #222" />
+          </div>
           <div>
             <div class="cart-item-title" style="font-weight:600">${displayNameFor(item)}</div>
             <div class="small">¥${item.priceJpy.toLocaleString()} × ${item.qty}</div>

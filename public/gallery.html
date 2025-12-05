@@ -224,7 +224,10 @@
     </div>
 
     <a href="/" class="back-btn">
-      <span>← Back to Store</span>
+      <span
+        data-ja="← ストアに戻る"
+        data-en="← Back to Store"
+        data-ru="← Назад в магазин">← ストアに戻る</span>
     </a>
   </header>
 
@@ -237,6 +240,18 @@
           <img
             src="/images/MM01.jpg"
             alt="POST XENO Look 1"
+            class="gallery-image">
+          <button class="gallery-arrow right" type="button" data-dir="next">›</button>
+        </div>
+      </article>
+
+      <!-- GALLERY CARD 2: FM01–FM04 carousel -->
+      <article class="gallery-card" data-id="fm-look-1">
+        <div class="gallery-carousel" data-gallery="fm-look-1">
+          <button class="gallery-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/FM01.jpg"
+            alt="POST XENO Look 2"
             class="gallery-image">
           <button class="gallery-arrow right" type="button" data-dir="next">›</button>
         </div>
@@ -256,6 +271,29 @@
   </main>
 
   <script>
+    // Sync language with index using localStorage 'lang'
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'ja';
+      document.documentElement.lang = currentLang;
+
+      function applyLang(lang) {
+        document.querySelectorAll('[data-ja],[data-en],[data-ru]').forEach(function(el) {
+          var ja = el.getAttribute('data-ja');
+          var en = el.getAttribute('data-en');
+          var ru = el.getAttribute('data-ru');
+          var next = null;
+          if (lang === 'ru') next = ru || en || ja;
+          else if (lang === 'en') next = en || ja || ru;
+          else next = ja || en || ru;
+          if (next !== null) el.textContent = next;
+        });
+      }
+
+      applyLang(currentLang);
+    })();
+  </script>
+
+  <script>
     // Gallery carousel + shared modal
     window.addEventListener('load', () => {
       const gallerySets = {
@@ -264,6 +302,12 @@
           '/images/MM02.jpg',
           '/images/MM03.jpg',
           '/images/MM04.jpg'
+        ],
+        'fm-look-1': [
+          '/images/FM01.jpg',
+          '/images/FM02.jpg',
+          '/images/FM03.jpg',
+          '/images/FM04.jpg'
         ]
       };
 

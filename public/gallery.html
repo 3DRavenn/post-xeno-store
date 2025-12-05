@@ -270,39 +270,7 @@
     </div>
   </main>
 
-  
-<script>
-  (function preloadCarouselImages() {
-    const sets = {
-      'fur-jacket': [
-        '/images/JP01.jpg',
-        '/images/JP02.jpg',
-        '/images/JP03.jpg'
-      ],
-      'belt-chain': [
-        '/images/BCP01.jpg',
-        '/images/BCP02.jpg',
-        '/images/BCP03.jpg',
-        '/images/BCP04.jpg'
-      ],
-      'mm-look-1': [
-        '/images/MM01.jpg',
-        '/images/MM02.jpg',
-        '/images/MM03.jpg',
-        '/images/MM04.jpg'
-      ],
-      'fm-look-1': [
-        '/images/FM01.jpg',
-        '/images/FM02.jpg',
-        '/images/FM03.jpg',
-        '/images/FM04.jpg'
-      ]
-    };
-    Object.values(sets).forEach(arr => arr.forEach(src => { const i=new Image(); i.src=src; }));
-  })();
-</script>
-
-<script>
+  <script>
     // Sync language with index using localStorage 'lang'
     (function() {
       var currentLang = localStorage.getItem('lang') || 'ja';
@@ -392,5 +360,18 @@
       });
     });
   </script>
+
+<script>
+(function preloadGalleryImages() {
+  if (!window.gallerySets) return;
+  Object.values(gallerySets).forEach(arr => {
+    arr.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  });
+})();
+</script>
+
 </body>
 </html>

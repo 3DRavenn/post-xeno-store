@@ -87,6 +87,7 @@
       background: linear-gradient(180deg, #151515, #101010);
       border: 1px solid var(--border); border-radius: 20px; padding: 16px;
       display: flex; flex-direction: column; gap: 14px;
+      justify-content: space-between;
     }
 
     /* Product names, cart item names, newsletter header */
@@ -117,6 +118,7 @@
       display: inline-flex; align-items: center; justify-content: center;
       padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
       background: #ffffff10; color: var(--text); font-weight: 600; cursor: pointer; transition: transform .06s;
+      font-size: 13px; line-height: 1.2; text-decoration: none;
     }
     .btn:hover { transform: translateY(-1px) }
     .row { display: flex; align-items: center; justify-content: space-between; gap: 8px }
@@ -124,8 +126,26 @@
     .product-buttons { display:flex; flex-direction:column; gap:8px; width:100%; }
     .product-buttons .btn { width:100%; justify-content:center; }
 
+/* Layout C: price left, stacked buttons right */
+.row-actions {
+  align-items: flex-start;
+}
+.row-actions .price {
+  flex: 0 0 auto;
+}
+.row-actions .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+.row-actions .actions .btn {
+  width: 150px;              /* same width for Add + Gallery */
+  min-height: 38px;          /* same height baseline */
+  justify-content: center;
+}
     .ph {
-      width: 100%; height: 220px; border-radius: 16px;
+      width: 100%; height: auto; border-radius: 16px;
       background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
       border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
       color: #6b7280; font-size: 12px; letter-spacing: .06em;
@@ -135,7 +155,7 @@
     .carousel {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1;           /* square area that adapts to card width */
+      height: auto;           /* square area that adapts to card width */
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -299,14 +319,23 @@
 
   <main class="wrap">
     <section class="grid" aria-label="Products">
-      <!-- PRODUCT 1 -->
+      <!-- PRODUCT 1 (BELT CHAIN WITH CAROUSEL) -->
       <article class="card"
         data-id="belt-chain"
         data-name-ja="POST XENO ベルトチェーンアクセサリー"
         data-name-en="POST XENO Belt Chain Accessory"
         data-name-ru="POST XENO аксессуар-цепочка для ремня"
         data-pricejpy="5000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
+
+        <div class="carousel" data-product="belt-chain">
+          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/BCP01.jpg"
+            alt="POST XENO Belt Chain Accessory"
+            class="carousel-image" style="max-height:none;">
+          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
+        </div>
+
         <div class="title"
              data-ja="POST XENO ベルトチェーンアクセサリー"
              data-en="POST XENO Belt Chain Accessory"
@@ -315,8 +344,7 @@
           <div class="price" data-ja="¥5,000" data-en="¥5,000" data-ru="¥5,000">¥5,000</div>
         </div>
         <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html"
-             data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
           <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
         </div>
       </article>
@@ -334,7 +362,7 @@
           <img
             src="/images/JP01.jpg"
             alt="POST XENO Fur Jacket"
-            class="carousel-image">
+            class="carousel-image" style="max-height:none;">
           <button class="carousel-arrow right" type="button" data-dir="next">›</button>
         </div>
 
@@ -346,8 +374,7 @@
           <div class="price" data-ja="¥30,000" data-en="¥30,000" data-ru="¥30,000">¥30,000</div>
         </div>
         <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html"
-             data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
           <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
         </div>
       </article>
@@ -368,8 +395,7 @@
           <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
         </div>
         <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html"
-             data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
           <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
         </div>
       </article>
@@ -390,8 +416,7 @@
           <div class="price" data-ja="¥8,000" data-en="¥8,000" data-ru="¥8,000">¥8,000</div>
         </div>
         <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html"
-             data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
           <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
         </div>
       </article>
@@ -474,6 +499,10 @@
   <script>
     // --- Cart state ---
     const cart = [];
+    const productThumbs = {
+      "fur-jacket": "/images/JP01.jpg",
+      "belt-chain": "/images/BCP01.jpg"
+    };
     const drawer = document.getElementById('drawer');
     const cartItemsEl = document.getElementById('cartItems');
     const subtotalEl = document.getElementById('subtotal');
@@ -519,7 +548,11 @@
         const row = document.createElement('div');
         row.className = 'cart-item';
         row.innerHTML = `
-          <div style="width:56px;height:56px;border-radius:10px;background:#1b1b1b;border:1px solid #222"></div>
+          <div>
+            <img src="${productThumbs[item.id] || '/images/JP01.jpg'}"
+                 alt=""
+                 style="width:56px;height:56px;object-fit: contain;border-radius:10px;border:1px solid #222" />
+          </div>
           <div>
             <div class="cart-item-title" style="font-weight:600">${displayNameFor(item)}</div>
             <div class="small">¥${item.priceJpy.toLocaleString()} × ${item.qty}</div>
@@ -631,35 +664,23 @@
       });
     });
 
-    // --- Jacket carousel + image modal (fur-jacket only) ---
+    // --- Product carousels + shared image modal (fur-jacket & belt-chain) ---
     window.addEventListener('load', () => {
-      const jacketImages = [
-        '/images/JP01.jpg',
-        '/images/JP02.jpg',
-        '/images/JP03.jpg'
-      ];
+      const productCarousels = {
+        'fur-jacket': [
+          '/images/JP01.jpg',
+          '/images/JP02.jpg',
+          '/images/JP03.jpg'
+        ],
+        'belt-chain': [
+          '/images/BCP01.jpg',
+          '/images/BCP02.jpg',
+          '/images/BCP03.jpg',
+          '/images/BCP04.jpg'
+        ]
+      };
 
-      const carousel = document.querySelector('.carousel[data-product="fur-jacket"]');
-      if (!carousel) return;
-
-      const img = carousel.querySelector('.carousel-image');
-      const prevBtn = carousel.querySelector('.carousel-arrow.left');
-      const nextBtn = carousel.querySelector('.carousel-arrow.right');
-
-      let currentIndex = 0;
-
-      function showImage(idx) {
-        const count = jacketImages.length;
-        currentIndex = (idx + count) % count;
-        img.src = jacketImages[currentIndex];
-      }
-
-      showImage(0);
-
-      if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-      if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
-
-      // Modal
+      // Modal (shared by all product images)
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.img-modal-close');
@@ -678,12 +699,36 @@
         document.body.style.overflow = '';
       }
 
-      img.addEventListener('click', () => openModal(img.src, img.alt));
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
       if (backdrop) backdrop.addEventListener('click', closeModal);
-
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+
+      // Initialize each product carousel
+      Object.entries(productCarousels).forEach(([productId, images]) => {
+        const carousel = document.querySelector(`.carousel[data-product="${productId}"]`);
+        if (!carousel || !images || images.length === 0) return;
+
+        const imgEl = carousel.querySelector('.carousel-image');
+        const prevBtn = carousel.querySelector('.carousel-arrow.left');
+        const nextBtn = carousel.querySelector('.carousel-arrow.right');
+        if (!imgEl) return;
+
+        let currentIndex = 0;
+
+        function showImage(idx) {
+          const count = images.length;
+          currentIndex = (idx + count) % count;
+          imgEl.src = images[currentIndex];
+        }
+
+        showImage(0);
+
+        if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+        imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
       });
     });
   </script>

@@ -361,17 +361,18 @@
     });
   </script>
 
-<script>
-(function preloadGalleryImages() {
-  if (!window.gallerySets) return;
-  Object.values(gallerySets).forEach(arr => {
-    arr.forEach(src => {
-      const img = new Image();
-      img.src = src;
+  <script>
+  (function preloadGalleryImages() {
+    if (!window.gallerySets) return;
+    Object.values(gallerySets).forEach(arr => {
+      arr.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
     });
-  });
-})();
-</script>
+  })();
+  </script>
 
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

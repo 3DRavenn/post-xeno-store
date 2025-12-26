@@ -257,6 +257,97 @@
         </div>
       </article>
 
+      <!-- STATIC IMAGES: RL02–RL11 (stacked) -->
+      <article class="gallery-card" data-id="rl-02">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL02.jpg"
+            alt="POST XENO RL02"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-03">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL03.jpg"
+            alt="POST XENO RL03"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-04">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL04.jpg"
+            alt="POST XENO RL04"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-05">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL05.jpg"
+            alt="POST XENO RL05"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-06">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL06.jpg"
+            alt="POST XENO RL06"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-07">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL07.jpg"
+            alt="POST XENO RL07"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-08">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL08.jpg"
+            alt="POST XENO RL08"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-09">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL09.jpg"
+            alt="POST XENO RL09"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-10">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL10.jpg"
+            alt="POST XENO RL10"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
+      <article class="gallery-card" data-id="rl-11">
+        <div class="gallery-carousel">
+          <img
+            src="/images/RL11.jpg"
+            alt="POST XENO RL11"
+            class="gallery-image static-gallery-image">
+        </div>
+      </article>
+
       <!-- Future gallery-card blocks can be added here -->
     </section>
 
@@ -357,6 +448,11 @@
         if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
         imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
+
+      // Static images (non-carousel)
+      document.querySelectorAll('.static-gallery-image').forEach((img) => {
+        img.addEventListener('click', () => openModal(img.src, img.alt));
+      });
       });
     });
   </script>

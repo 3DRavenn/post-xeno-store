@@ -322,7 +322,37 @@
 
   <main class="wrap">
     <section class="grid" aria-label="Products">
-      <!-- PRODUCT 1 (BELT CHAIN WITH CAROUSEL) -->
+      <!-- PRODUCT 1 (FUR JACKET WITH CAROUSEL) -->
+      <article class="card"
+        data-id="fur-jacket"
+        data-name-ja="POST XENO ファージャケット"
+        data-name-en="POST XENO Fur Jacket"
+        data-name-ru="POST XENO меховая куртка"
+        data-pricejpy="30000">
+
+        <div class="carousel" data-product="fur-jacket">
+          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/RLA02.jpg"
+            alt="POST XENO Fur Jacket"
+            class="carousel-image" style="max-height:none;">
+          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
+        </div>
+
+        <div class="title"
+             data-ja="POST XENO ファージャケット"
+             data-en="POST XENO Fur Jacket"
+             data-ru="POST XENO меховая куртка">POST XENO ファージャケット</div>
+        <div class="price-block">
+          <div class="price" data-ja="¥30,000" data-en="¥30,000" data-ru="¥30,000">¥30,000</div>
+        </div>
+        <div class="product-buttons">
+          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
+          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
+        </div>
+      </article>
+
+      <!-- PRODUCT 2 (BELT CHAIN WITH CAROUSEL) -->
       <article class="card"
         data-id="belt-chain"
         data-name-ja="POST XENO ベルトチェーンアクセサリー"
@@ -345,36 +375,6 @@
              data-ru="POST XENO аксессуар-цепочка для ремня">POST XENO ベルトチェーンアクセサリー</div>
         <div class="price-block">
           <div class="price" data-ja="¥5,000" data-en="¥5,000" data-ru="¥5,000">¥5,000</div>
-        </div>
-        <div class="product-buttons">
-          <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
-          <button class="btn add" data-ja="カートに追加" data-en="Add to Cart" data-ru="В корзину">カートに追加</button>
-        </div>
-      </article>
-
-      <!-- PRODUCT 2 (FUR JACKET WITH CAROUSEL) -->
-      <article class="card"
-        data-id="fur-jacket"
-        data-name-ja="POST XENO ファージャケット"
-        data-name-en="POST XENO Fur Jacket"
-        data-name-ru="POST XENO меховая куртка"
-        data-pricejpy="30000">
-
-        <div class="carousel" data-product="fur-jacket">
-          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
-          <img
-            src="/images/JP01.jpg"
-            alt="POST XENO Fur Jacket"
-            class="carousel-image" style="max-height:none;">
-          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
-        </div>
-
-        <div class="title"
-             data-ja="POST XENO ファージャケット"
-             data-en="POST XENO Fur Jacket"
-             data-ru="POST XENO меховая куртка">POST XENO ファージャケット</div>
-        <div class="price-block">
-          <div class="price" data-ja="¥30,000" data-en="¥30,000" data-ru="¥30,000">¥30,000</div>
         </div>
         <div class="product-buttons">
           <a class="btn gallery-btn" href="/gallery.html" data-ja="ギャラリー" data-en="Gallery" data-ru="Галерея">ギャラリー</a>
@@ -691,6 +691,7 @@
     window.addEventListener('load', () => {
       window.productCarousels = {
         'fur-jacket': [
+          '/images/RLA02.jpg',
           '/images/JP01.jpg',
           '/images/JP02.jpg',
           '/images/JP03.jpg'

@@ -389,8 +389,17 @@
         data-name-en="POST XENO Fallen Angel Tee (Black)"
         data-name-ru="POST XENO футболка Fallen Angel (чёрная)"
         data-pricejpy="8000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
-        <div class="title"
+
+        <div class="carousel" data-product="fallen-angel-tee-black">
+          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/SM04.jpg"
+            alt="POST XENO Fallen Angel Tee (Black)"
+            class="carousel-image" style="max-height:none;">
+          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
+        </div>
+
+<div class="title"
              data-ja="POST XENO フォールンエンジェルTシャツ（ブラック）"
              data-en="POST XENO Fallen Angel Tee (Black)"
              data-ru="POST XENO футболка Fallen Angel (чёрная)">POST XENO フォールンエンジェルTシャツ（ブラック）</div>
@@ -410,8 +419,17 @@
         data-name-en="POST XENO Fallen Angel Tee (Grey)"
         data-name-ru="POST XENO футболка Fallen Angel (серая)"
         data-pricejpy="8000">
-        <div class="ph" data-ja="画像準備中" data-en="IMAGE COMING SOON" data-ru="СКОРО ИЗОБРАЖЕНИЕ">画像準備中</div>
-        <div class="title"
+
+        <div class="carousel" data-product="fallen-angel-tee-grey">
+          <button class="carousel-arrow left" type="button" data-dir="prev">‹</button>
+          <img
+            src="/images/SM01.jpg"
+            alt="POST XENO Fallen Angel Tee (Grey)"
+            class="carousel-image" style="max-height:none;">
+          <button class="carousel-arrow right" type="button" data-dir="next">›</button>
+        </div>
+
+<div class="title"
              data-ja="POST XENO フォールンエンジェルTシャツ（グレー）"
              data-en="POST XENO Fallen Angel Tee (Grey)"
              data-ru="POST XENO футболка Fallen Angel (серая)">POST XENO フォールンエンジェルTシャツ（グレー）</div>
@@ -504,7 +522,9 @@
     const cart = [];
     const productThumbs = {
       "fur-jacket": "/images/JP01.jpg",
-      "belt-chain": "/images/BCP01.jpg"
+      "belt-chain": "/images/BCP01.jpg",
+      "fallen-angel-tee-black": "/images/SM04.jpg",
+      "fallen-angel-tee-grey": "/images/SM01.jpg"
     };
     const drawer = document.getElementById('drawer');
     const cartItemsEl = document.getElementById('cartItems');
@@ -669,7 +689,7 @@
 
     // --- Product carousels + shared image modal (fur-jacket & belt-chain) ---
     window.addEventListener('load', () => {
-      const productCarousels = {
+      window.productCarousels = {
         'fur-jacket': [
           '/images/JP01.jpg',
           '/images/JP02.jpg',
@@ -680,8 +700,20 @@
           '/images/BCP02.jpg',
           '/images/BCP03.jpg',
           '/images/BCP04.jpg'
+        ],
+        'fallen-angel-tee-black': [
+          '/images/SM04.jpg',
+          '/images/SM05.jpg',
+          '/images/SM06.jpg'
+        ],
+        'fallen-angel-tee-grey': [
+          '/images/SM01.jpg',
+          '/images/SM02.jpg',
+          '/images/SM03.jpg'
         ]
       };
+
+      const productCarousels = window.productCarousels;
 
       // Modal (shared by all product images)
       const modal = document.getElementById('imageModal');
@@ -771,7 +803,7 @@
 <script>
 (function preloadCarouselImages() {
   if (!window.productCarousels) return;
-  Object.values(productCarousels).forEach(arr => {
+  Object.values(window.productCarousels).forEach(arr => {
     arr.forEach(src => {
       const img = new Image();
       img.src = src;

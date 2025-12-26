@@ -224,12 +224,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      opacity: 1;
+      transition: opacity 650ms ease;
     }
+    #loading-screen.is-hiding {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .loader-text {
       color: #fff;
       font-family: monospace;
       letter-spacing: 0.15em;
       opacity: 0.85;
+      animation: loaderPulse 1.25s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes loaderPulse {
+      0%   { opacity: 0.35; transform: translateY(0); }
+      50%  { opacity: 0.95; transform: translateY(-1px); }
+      100% { opacity: 0.35; transform: translateY(0); }
     }
   </style>
 </head>
@@ -238,7 +253,7 @@
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <div class="loader-text">loading…</div>
+    <div class="loader-text" data-ja="loading…" data-en="loading…" data-ru="загрузка…">loading…</div>
   </div>
   <header>
     <div class="brand">
@@ -405,14 +420,26 @@
 
       applyLang(currentLang);
     })();
-  
-      // Loading screen timeout (8 seconds)
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const loader = document.getElementById('loading-screen');
-          if (loader) loader.style.display = 'none';
-        }, 8000);
-      });
+      // Loading screen (5 seconds) + fade out
+      (function() {
+        const loader = document.getElementById('loading-screen');
+        if (!loader) return;
+
+        // Start timer immediately after DOM is ready (not waiting for images)
+        const start = () => {
+          setTimeout(() => {
+            loader.classList.add('is-hiding');
+            // Remove after fade transition completes
+            setTimeout(() => loader.remove(), 800);
+          }, 5000);
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', start);
+        } else {
+          start();
+        }
+      })();
 </script>
 
 

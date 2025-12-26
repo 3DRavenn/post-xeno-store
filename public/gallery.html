@@ -214,9 +214,32 @@
       }
     }
   </style>
+
+  <style>
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loader-text {
+      color: #fff;
+      font-family: monospace;
+      letter-spacing: 0.15em;
+      opacity: 0.85;
+    }
+  </style>
 </head>
 
+
 <body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-text">loading…</div>
+  </div>
   <header>
     <div class="brand">
       <h1>POST XENO</h1>
@@ -382,7 +405,16 @@
 
       applyLang(currentLang);
     })();
-  </script>
+  
+      // Loading screen timeout (8 seconds)
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('loading-screen');
+          if (loader) loader.style.display = 'none';
+        }, 8000);
+      });
+</script>
+
 
   <script>
     // Gallery carousel + shared modal

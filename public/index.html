@@ -714,33 +714,55 @@
         ]
       };
 
-      // Preload all carousel images so first swipe/click is instant (especially on mobile)
+      // Preload carousel images (throttled for mobile stability)
       (function preloadAllCarouselImages() {
         try {
-          const urls = new Set();
-          Object.values(window.productCarousels || {}).forEach((arr) => (arr || []).forEach((u) => urls.add(u)));
+          const urls = [];
 
-          // Also preload cart thumbnails (keeps cart/mini images snappy)
+          // Carousel images
+          Object.values(window.productCarousels || {}).forEach((arr) => {
+            (arr || []).forEach((u) => { if (u) urls.push(u); });
+          });
+
+          // Cart thumbnails (small, but keep them snappy)
           if (typeof productThumbs === 'object' && productThumbs) {
-            Object.values(productThumbs).forEach((u) => { if (u) urls.add(u); });
+            Object.values(productThumbs).forEach((u) => { if (u) urls.push(u); });
           }
 
-          urls.forEach((url) => {
-            const img = new Image();
-            img.decoding = 'async';
-            img.loading = 'eager';
-            img.src = url;
-
-            // If supported, decode in background (doesn't block)
-            if (img.decode) img.decode().catch(() => {});
+          // De-dupe while preserving order
+          const seen = new Set();
+          const queue = urls.filter((u) => {
+            if (seen.has(u)) return false;
+            seen.add(u);
+            return true;
           });
+
+          // Conservative concurrency to avoid iOS Safari tab crashes
+          const CONCURRENCY = 2;
+          let active = 0;
+          let i = 0;
+
+          const loadNext = () => {
+            while (active < CONCURRENCY && i < queue.length) {
+              const url = queue[i++];
+              active++;
+
+              const img = new Image();
+              img.onload = img.onerror = () => {
+                active--;
+                setTimeout(loadNext, 60);
+              };
+              img.src = url;
+            }
+          };
+
+          loadNext();
         } catch (e) {
-          // silently ignore — preloading is an enhancement
+          // enhancement only
         }
       })();
 
-
-      const productCarousels = window.productCarousels;
+const productCarousels = window.productCarousels;
 
       // Modal (shared by all product images)
       const modal = document.getElementById('imageModal');

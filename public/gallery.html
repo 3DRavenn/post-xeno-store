@@ -460,6 +460,29 @@
           '/images/FM04.jpg'
         ]
       };
+      // Preload all gallery images (carousels + static) for instant first swipe
+      (function preloadGalleryImages() {
+        try {
+          const urls = new Set();
+
+          Object.values(gallerySets).forEach(arr => {
+            (arr || []).forEach(src => urls.add(src));
+          });
+
+          document.querySelectorAll('.static-gallery-image').forEach(img => {
+            if (img.src) urls.add(img.src);
+          });
+
+          urls.forEach(src => {
+            const img = new Image();
+            img.decoding = 'async';
+            img.loading = 'eager';
+            img.src = src;
+            if (img.decode) img.decode().catch(() => {});
+          });
+        } catch (e) {}
+      })();
+
 
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
@@ -506,6 +529,39 @@
         if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
         if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
+        // Touch swipe support (mobile only)
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+        if (isTouch) {
+          let startX = 0;
+          let startY = 0;
+          let tracking = false;
+
+          imgEl.addEventListener('touchstart', (e) => {
+            const t = e.touches[0];
+            if (!t) return;
+            tracking = true;
+            startX = t.clientX;
+            startY = t.clientY;
+          }, { passive: true });
+
+          imgEl.addEventListener('touchend', (e) => {
+            if (!tracking) return;
+            tracking = false;
+            const t = e.changedTouches[0];
+            if (!t) return;
+
+            const dx = t.clientX - startX;
+            const dy = t.clientY - startY;
+
+            // Ignore vertical scroll gestures
+            if (Math.abs(dy) > Math.abs(dx)) return;
+
+            const threshold = 40;
+            if (dx <= -threshold) showImage(currentIndex + 1);
+            else if (dx >= threshold) showImage(currentIndex - 1);
+          }, { passive: true });
+        }
+
         imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
 
       // Static images (non-carousel)
@@ -516,17 +572,7 @@
     });
   </script>
 
-  <script>
-  (function preloadGalleryImages() {
-    if (!window.gallerySets) return;
-    Object.values(gallerySets).forEach(arr => {
-      arr.forEach(src => {
-        const img = new Image();
-        img.src = src;
-      });
-    });
-  })();
-  </script>
+  
 
   <script defer src="/_vercel/insights/script.js"></script>
 </body>

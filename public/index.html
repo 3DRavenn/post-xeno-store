@@ -714,6 +714,32 @@
         ]
       };
 
+      // Preload all carousel images so first swipe/click is instant (especially on mobile)
+      (function preloadAllCarouselImages() {
+        try {
+          const urls = new Set();
+          Object.values(productCarousels).forEach((arr) => (arr || []).forEach((u) => urls.add(u)));
+
+          // Also preload cart thumbnails (keeps cart/mini images snappy)
+          if (typeof productThumbs === 'object' && productThumbs) {
+            Object.values(productThumbs).forEach((u) => { if (u) urls.add(u); });
+          }
+
+          urls.forEach((url) => {
+            const img = new Image();
+            img.decoding = 'async';
+            img.loading = 'eager';
+            img.src = url;
+
+            // If supported, decode in background (doesn't block)
+            if (img.decode) img.decode().catch(() => {});
+          });
+        } catch (e) {
+          // silently ignore — preloading is an enhancement
+        }
+      })();
+
+
       const productCarousels = window.productCarousels;
 
       // Modal (shared by all product images)

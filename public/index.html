@@ -773,6 +773,44 @@
         if (prevBtn) prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
         if (nextBtn) nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
+        // Touch swipe (mobile only): swipe left/right on the image to change slides
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+        if (isTouch) {
+          let startX = 0;
+          let startY = 0;
+          let tracking = false;
+
+          const onStart = (e) => {
+            const t = e.touches && e.touches[0];
+            if (!t) return;
+            tracking = true;
+            startX = t.clientX;
+            startY = t.clientY;
+          };
+
+          const onEnd = (e) => {
+            if (!tracking) return;
+            tracking = false;
+
+            const t = (e.changedTouches && e.changedTouches[0]) || (e.touches && e.touches[0]);
+            if (!t) return;
+
+            const dx = t.clientX - startX;
+            const dy = t.clientY - startY;
+
+            // Ignore mostly-vertical gestures (so scrolling feels normal)
+            if (Math.abs(dy) > Math.abs(dx)) return;
+
+            // Minimum swipe distance
+            const threshold = 40;
+            if (dx <= -threshold) showImage(currentIndex + 1); // swipe left => next
+            else if (dx >= threshold) showImage(currentIndex - 1); // swipe right => prev
+          };
+
+          imgEl.addEventListener('touchstart', onStart, { passive: true });
+          imgEl.addEventListener('touchend', onEnd, { passive: true });
+        }
+
         imgEl.addEventListener('click', () => openModal(imgEl.src, imgEl.alt));
       });
     });

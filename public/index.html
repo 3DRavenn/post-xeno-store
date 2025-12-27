@@ -718,7 +718,7 @@
       (function preloadAllCarouselImages() {
         try {
           const urls = new Set();
-          Object.values(productCarousels).forEach((arr) => (arr || []).forEach((u) => urls.add(u)));
+          Object.values(window.productCarousels || {}).forEach((arr) => (arr || []).forEach((u) => urls.add(u)));
 
           // Also preload cart thumbnails (keeps cart/mini images snappy)
           if (typeof productThumbs === 'object' && productThumbs) {

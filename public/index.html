@@ -757,6 +757,15 @@
           const count = images.length;
           currentIndex = (idx + count) % count;
           imgEl.src = images[currentIndex];
+
+          // Special case: RLA02 is a different aspect ratio — crop top/bottom only for that image
+          if (productId === 'fur-jacket' && images[currentIndex].includes('RLA02')) {
+            imgEl.style.objectFit = 'cover';
+            imgEl.style.objectPosition = 'center';
+          } else {
+            imgEl.style.objectFit = '';
+            imgEl.style.objectPosition = '';
+          }
         }
 
         showImage(0);

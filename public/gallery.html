@@ -460,31 +460,65 @@
           '/images/FM04.jpg'
         ]
       };
-      // Preload all gallery images (carousels + static) for instant first swipe
+      // Preload gallery images (throttled for mobile stability)
       (function preloadGalleryImages() {
         try {
-          const urls = new Set();
+          const urls = [];
 
-          Object.values(gallerySets).forEach(arr => {
-            (arr || []).forEach(src => urls.add(src));
+          // Priority: carousel images first (for instant swipes)
+          Object.values(gallerySets).forEach((arr) => {
+            (arr || []).forEach((src) => { if (src) urls.push(src); });
           });
 
-          document.querySelectorAll('.static-gallery-image').forEach(img => {
-            if (img.src) urls.add(img.src);
+          // Then static images
+          document.querySelectorAll('.static-gallery-image').forEach((img) => {
+            const src = img.getAttribute('src');
+            if (src) urls.push(src);
           });
 
-          urls.forEach(src => {
-            const img = new Image();
-            img.decoding = 'async';
-            img.loading = 'eager';
-            img.src = src;
-            if (img.decode) img.decode().catch(() => {});
+          // De-dupe while preserving order
+          const seen = new Set();
+          const queue = urls.filter((u) => {
+            if (seen.has(u)) return false;
+            seen.add(u);
+            return true;
           });
-        } catch (e) {}
+
+          // Limit concurrent downloads to avoid mobile Safari crashes
+          const CONCURRENCY = 2;
+          let active = 0;
+          let i = 0;
+
+          const loadNext = () => {
+            while (active < CONCURRENCY && i < queue.length) {
+              const src = queue[i++];
+              active++;
+
+              const img = new Image();
+              img.decoding = 'async';
+              img.loading = 'eager';
+
+              const done = () => {
+                active--;
+                // Small stagger helps iOS stability
+                setTimeout(loadNext, 60);
+              };
+
+              img.onload = done;
+              img.onerror = done;
+              img.src = src;
+
+              if (img.decode) img.decode().then(done).catch(() => {});
+            }
+          };
+
+          loadNext();
+        } catch (e) {
+          // preloading is an enhancement
+        }
       })();
 
-
-      const modal = document.getElementById('imageModal');
+const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.img-modal-close');
       const backdrop = modal.querySelector('.img-modal-backdrop');

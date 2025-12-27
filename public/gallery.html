@@ -299,90 +299,100 @@
       <article class="gallery-card" data-id="rl-02">
         <div class="gallery-carousel">
           <img
-            src="/images/RL02.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL02.jpg"
             alt="POST XENO RL02"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-03">
         <div class="gallery-carousel">
           <img
-            src="/images/RL03.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL03.jpg"
             alt="POST XENO RL03"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-04">
         <div class="gallery-carousel">
           <img
-            src="/images/RL04.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL04.jpg"
             alt="POST XENO RL04"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-05">
         <div class="gallery-carousel">
           <img
-            src="/images/RL05.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL05.jpg"
             alt="POST XENO RL05"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-06">
         <div class="gallery-carousel">
           <img
-            src="/images/RL06.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL06.jpg"
             alt="POST XENO RL06"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-07">
         <div class="gallery-carousel">
           <img
-            src="/images/RL07.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL07.jpg"
             alt="POST XENO RL07"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-08">
         <div class="gallery-carousel">
           <img
-            src="/images/RL08.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL08.jpg"
             alt="POST XENO RL08"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-09">
         <div class="gallery-carousel">
           <img
-            src="/images/RL09.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL09.jpg"
             alt="POST XENO RL09"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-10">
         <div class="gallery-carousel">
           <img
-            src="/images/RL10.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL10.jpg"
             alt="POST XENO RL10"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
       <article class="gallery-card" data-id="rl-11">
         <div class="gallery-carousel">
           <img
-            src="/images/RL11.jpg"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-src="/images/RL11.jpg"
             alt="POST XENO RL11"
-            class="gallery-image static-gallery-image">
+            class="gallery-image static-gallery-image lazy-img">
         </div>
       </article>
 
@@ -460,32 +470,20 @@
           '/images/FM04.jpg'
         ]
       };
-      // Preload gallery images (throttled for mobile stability)
-      (function preloadGalleryImages() {
+      // Preload carousel images only (mobile-safe). Static images lazy-load as you scroll.
+      (function preloadCarouselImagesOnly() {
         try {
           const urls = [];
-
-          // Priority: carousel images first (for instant swipes)
           Object.values(gallerySets).forEach((arr) => {
             (arr || []).forEach((src) => { if (src) urls.push(src); });
           });
 
-          // Then static images
-          document.querySelectorAll('.static-gallery-image').forEach((img) => {
-            const src = img.getAttribute('src');
-            if (src) urls.push(src);
-          });
-
-          // De-dupe while preserving order
+          // De-dupe
           const seen = new Set();
-          const queue = urls.filter((u) => {
-            if (seen.has(u)) return false;
-            seen.add(u);
-            return true;
-          });
+          const queue = urls.filter((u) => (seen.has(u) ? false : (seen.add(u), true)));
 
-          // Limit concurrent downloads to avoid mobile Safari crashes
-          const CONCURRENCY = 2;
+          // Very conservative to avoid iOS Safari crashes
+          const CONCURRENCY = 1;
           let active = 0;
           let i = 0;
 
@@ -495,29 +493,47 @@
               active++;
 
               const img = new Image();
-              img.decoding = 'async';
-              img.loading = 'eager';
-
-              const done = () => {
+              img.onload = img.onerror = () => {
                 active--;
-                // Small stagger helps iOS stability
-                setTimeout(loadNext, 60);
+                setTimeout(loadNext, 120);
               };
-
-              img.onload = done;
-              img.onerror = done;
               img.src = src;
-
-              if (img.decode) img.decode().then(done).catch(() => {});
             }
           };
 
           loadNext();
-        } catch (e) {
-          // preloading is an enhancement
-        }
+        } catch (e) {}
       })();
 
+      // Lazy-load static images when they approach the viewport
+      (function lazyLoadStaticImages() {
+        const imgs = Array.from(document.querySelectorAll('img.lazy-img[data-src]'));
+        if (imgs.length === 0) return;
+
+        const reveal = (img) => {
+          const real = img.getAttribute('data-src');
+          if (!real) return;
+          img.src = real;
+          img.removeAttribute('data-src');
+          img.classList.remove('lazy-img');
+        };
+
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                reveal(entry.target);
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { rootMargin: '400px 0px' });
+
+          imgs.forEach((img) => io.observe(img));
+        } else {
+          // Fallback: load them after a short delay
+          setTimeout(() => imgs.forEach(reveal), 1500);
+        }
+      })();
 const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.img-modal-close');

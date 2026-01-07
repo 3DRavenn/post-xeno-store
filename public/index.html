@@ -289,10 +289,83 @@
   
     .title { text-align:center; margin-bottom:6px; }
 
+
+    /* Announcement marquee */
+    .announce-bar {
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      background: #0c0c0c;
+      overflow: hidden;
+    }
+    .announce-track {
+      display: flex;
+      width: 200%;
+      align-items: center;
+      gap: 0;
+      animation: announceMarquee 16s linear infinite;
+      will-change: transform;
+    }
+    .announce-group {
+      flex: 0 0 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      white-space: nowrap;
+      padding: 8px 0;
+    }
+    .announce-text {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #e8eaed;
+      opacity: 0.9;
+      padding: 0 24px;
+    }
+    @keyframes announceMarquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .announce-track { animation: none; transform: none; }
+    }
+
 </style>
 </head>
 
 <body class="ja-active">
+  <!-- Announcement marquee (language-aware) -->
+  <div class="announce-bar" aria-label="Shipping notice">
+    <div class="announce-track" aria-hidden="true">
+      <div class="announce-group">
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+      </div>
+      <div class="announce-group">
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+        <span class="announce-text"
+              data-ja="新規のご注文は今月末に発送予定です"
+              data-en="New orders are scheduled to ship at the end of this month."
+              data-ru="Новые заказы отправляются в конце этого месяца.">新規のご注文は今月末に発送予定です</span>
+      </div>
+    </div>
+  </div>
+
   <header>
     <div class="brand">
       <h1 data-ja="POST XENO" data-en="POST XENO" data-ru="POST XENO">POST XENO</h1>

@@ -43,9 +43,31 @@ export default async function handler(req, res) {
       mode: 'payment',
       payment_method_types: ['card'],
       line_items,
+
+      // Require shipping address (so every order has delivery details)
+      shipping_address_collection: {
+        allowed_countries: [
+          'JP',
+          'US', 'CA',
+          'GB', 'DE', 'FR', 'NL', 'IT', 'ES',
+          'AU',
+        ],
+      },
+
+      // Flat rates by region (Stripe will show/apply the correct one by address)
+      shipping_options: [
+        { shipping_rate: 'shr_1SpX5KE1zq0iMeIXduLAibkZ' }, // Japan Standard
+        { shipping_rate: 'shr_1SpX64E1zq0iMeIXrovzwvQk' }, // North America Standard
+        { shipping_rate: 'shr_1SpX6cE1zq0iMeIXIqc5Htkr' }, // International Standard
+      ],
+
+      // Recommended: collect billing + phone for delivery/contact
+      billing_address_collection: 'required',
+      phone_number_collection: { enabled: true },
+
       success_url: 'https://postxeno.com/success.html',
       cancel_url: 'https://postxeno.com/',
-    });
+    }););
 
     return res.status(200).json({ url: session.url });
   } catch (err) {

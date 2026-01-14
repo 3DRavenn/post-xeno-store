@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 
       success_url: 'https://postxeno.com/success.html',
       cancel_url: 'https://postxeno.com/',
-    }););
+    });
 
     return res.status(200).json({ url: session.url });
   } catch (err) {

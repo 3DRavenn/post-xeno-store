@@ -1,4 +1,3 @@
-// /api/checkout.mjs (works as .js too because package.json has "type":"module")
 import Stripe from 'stripe';
 
 export default async function handler(req, res) {
@@ -11,7 +10,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Missing STRIPE_SECRET_KEY env var' });
     }
 
-    // Map your storefront ids → LIVE Stripe price IDs
+    // Map storefront ids → LIVE Stripe price IDs
     const priceMap = {
       'belt-chain': 'price_1SHSXpE1zq0iMeIXs0rAL10b',
       'fur-jacket': 'price_1SHSXoE1zq0iMeIX4OxDS0SV',
@@ -44,7 +43,7 @@ export default async function handler(req, res) {
       payment_method_types: ['card'],
       line_items,
 
-      // Require shipping address (so every order has delivery details)
+      // Force shipping address collection
       shipping_address_collection: {
         allowed_countries: [
           'JP',
@@ -54,14 +53,12 @@ export default async function handler(req, res) {
         ],
       },
 
-      // Flat rates by region (Stripe will show/apply the correct one by address)
+      // ONE global flat-rate shipping (applied once per order)
       shipping_options: [
-        { shipping_rate: 'shr_1SpX5KE1zq0iMeIXduLAibkZ' }, // Japan Standard
-        { shipping_rate: 'shr_1SpX64E1zq0iMeIXrovzwvQk' }, // North America Standard
-        { shipping_rate: 'shr_1SpX6cE1zq0iMeIXIqc5Htkr' }, // International Standard
+        { shipping_rate: 'shr_1SpXZnE1zq0iMeIXSSThuKPC' }, // Standard Shipping ¥3,750
       ],
 
-      // Recommended: collect billing + phone for delivery/contact
+      // Recommended
       billing_address_collection: 'required',
       phone_number_collection: { enabled: true },
 
@@ -71,7 +68,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
-    // make the error visible in Vercel logs *and* to the client
     console.error('checkout error:', err);
     return res.status(500).json({
       error: err?.message || 'internal',

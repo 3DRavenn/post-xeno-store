@@ -1,3 +1,4 @@
+// /api/checkout.mjs (works as .js too because package.json has "type":"module")
 import Stripe from 'stripe';
 
 export default async function handler(req, res) {
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Missing STRIPE_SECRET_KEY env var' });
     }
 
-    // Map storefront ids → LIVE Stripe price IDs
+    // Map your storefront ids → LIVE Stripe price IDs
     const priceMap = {
       'belt-chain': 'price_1SHSXpE1zq0iMeIXs0rAL10b',
       'fur-jacket': 'price_1SHSXoE1zq0iMeIX4OxDS0SV',
@@ -38,7 +39,12 @@ export default async function handler(req, res) {
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-    const session = await stripe.checkout.sessions.create({
+    const hasJacket = body.items.some((i) => i.id === 'fur-jacket');
+    const hasShirt =
+      body.items.some((i) => i.id === 'fallen-angel-tee-black') ||
+      body.items.some((i) => i.id === 'fallen-angel-tee-grey');
+
+    const sessionConfig = {
       mode: 'payment',
       payment_method_types: ['card'],
       line_items,
@@ -64,10 +70,47 @@ export default async function handler(req, res) {
 
       success_url: 'https://postxeno.com/success.html',
       cancel_url: 'https://postxeno.com/',
-    });
+    };
+
+    // Size selectors (shown only when relevant items are in the cart)
+    // Saved on the Checkout Session under custom_fields.
+    const sizeOptions = [
+      { label: 'Small', value: 'S' },
+      { label: 'Medium', value: 'M' },
+      { label: 'Large', value: 'L' },
+    ];
+
+    const customFields = [];
+
+    if (hasJacket) {
+      customFields.push({
+        key: 'jacket_size',
+        label: { type: 'custom', custom: 'Jacket Size' },
+        type: 'dropdown',
+        dropdown: { options: sizeOptions },
+        optional: false,
+      });
+    }
+
+    if (hasShirt) {
+      customFields.push({
+        key: 'shirt_size',
+        label: { type: 'custom', custom: 'T‑Shirt Size' },
+        type: 'dropdown',
+        dropdown: { options: sizeOptions },
+        optional: false,
+      });
+    }
+
+    if (customFields.length) {
+      sessionConfig.custom_fields = customFields;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
+    // make the error visible in Vercel logs *and* to the client
     console.error('checkout error:', err);
     return res.status(500).json({
       error: err?.message || 'internal',
